@@ -1,0 +1,286 @@
+---
+title: "Age_Menopause"
+output: html_document
+date: '2022-06-09'
+---
+
+###Premenopause: Less than 50
+###Menopausal: 50-60 
+###Postmenopause: greater than 60
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r message= FALSE, warning= FALSE, echo=FALSE}
+library(tximport)
+library(GenomicFeatures)
+library(TxDb.Hsapiens.UCSC.hg19.knownGene)
+library(DESeq2)
+library(tibble)
+library(ggplot2)
+```
+
+
+```{r message= FALSE, warning= FALSE, echo=FALSE}
+txdb <- makeTxDbFromGFF(file="~/Downloads/gencode.v19.annotation.gtf")
+saveDb(x=txdb, file = "gencode.v19.annotation.gtf_withproteinids.TxDb")
+k <- keys(txdb, keytype = "TXNAME")
+tx2gene <- select(txdb, k, "GENEID", "TXNAME")
+```
+
+
+```{r message= FALSE, warning= FALSE, echo=FALSE}
+dir <- "~/Documents/Mythreye_Lab/quants"
+samples <- read.csv(file= "~/Desktop/Sample_mea_menopause_Serous_EOC_only.csv")
+files <- file.path(dir, samples$Sample,"quant.sf")
+```
+
+
+```{r message= FALSE, warning= FALSE, echo=FALSE}
+all(file.exists(files))
+```
+
+```{r message= FALSE, warning= FALSE, echo=FALSE}
+txi <- tximport(files, type = "salmon", tx2gene= tx2gene, ignoreAfterBar= TRUE)
+names(txi)
+sample_meta_data <- read.csv(file= "~/Desktop/Sample_mea_menopause_Serous_EOC_only.csv")
+sampleFiles <- samples$Sample
+```
+
+```{r message= FALSE, warning= FALSE, echo=FALSE}
+Menopause_status <- sample_meta_data$Menopause_Status
+sampleTable <- data.frame(sampleName = sampleFiles,
+                          fileName = sampleFiles,
+                          condition = Menopause_status)
+sampleTable$condition <- factor(sampleTable$condition)
+dds <- DESeqDataSetFromTximport(txi, sampleTable, ~condition)
+dds <- DESeq(dds)
+res <- results(dds)
+```
+
+
+#### INHBA
+```{r}
+counts <- counts(dds['ENSG00000122641.9',], normalized = TRUE)
+col = c("Menopause"= "#20A387FF", "Post-Menopause" = "#453781FF", "Pre-Menopause" = "#33638DFF")
+m <- list(counts = as.numeric(counts), group= Menopause_status)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts", title = "Expression of INHBA")
+q
+```
+
+```{r}
+#ggsave("~/Desktop/benign_tumor_INHBA.tiff", plot = last_plot())
+#write.csv(counts, "~/Desktop/counts_benign_tumor_INHBA.csv")
+```
+
+#### ACVR2A
+```{r}
+counts <- counts(dds['ENSG00000121989.10',], normalized = TRUE)
+col = c("Menopause"= "#20A387FF", "Post-Menopause" = "#453781FF", "Pre-Menopause" = "#33638DFF")
+m <- list(counts = as.numeric(counts), group= Menopause_status)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(x= "Menopause", y = "Normalized Counts ", title = "Expression of ACVR2A")
+q
+```
+
+```{r}
+#ggsave("~/Desktop/Elizabeth_Figures/benign_tumor_ACVR2A.tiff", plot = last_plot())
+#write.csv(counts, "~/Desktop/Elizabeth_Figures/counts_benign_tumor_ACVR2A.csv")
+```
+
+#### ACVR2B
+```{r}
+counts <- counts(dds['ENSG00000114739.9',], normalized = TRUE)
+col = c("Menopause"= "#20A387FF", "Post-Menopause" = "#453781FF", "Pre-Menopause" = "#33638DFF")
+m <- list(counts = as.numeric(counts), group= Menopause_status)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of ACVR2B")
+q
+```
+
+```{r}
+#ggsave("~/Desktop/Elizabeth_Figures/benign_tumor_ACVR2B.tiff", plot = last_plot())
+#write.csv(counts, "~/Desktop/Elizabeth_Figures/counts_benign_tumor_ACVR2B.csv")
+```
+
+#### FOXP3
+```{r}
+counts <- counts(dds['ENSG00000049768.10',], normalized = TRUE)
+col = c("Menopause"= "#20A387FF", "Post-Menopause" = "#453781FF", "Pre-Menopause" = "#33638DFF")
+m <- list(counts = as.numeric(counts), group= Menopause_status)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of FOXP3")
+q
+```
+
+```{r}
+#ggsave("~/Desktop/Elizabeth_Figures/benign_tumor_FOXP3.tiff", plot = last_plot())
+#write.csv(counts, "~/Desktop/Elizabeth_Figures/counts_benign_tumor_FOXP3.csv")
+```
+
+#### INHBB
+```{r}
+counts <- counts(dds['ENSG00000163083.5',], normalized = TRUE)
+col = c("Menopause"= "#20A387FF", "Post-Menopause" = "#453781FF", "Pre-Menopause" = "#33638DFF")
+m <- list(counts = as.numeric(counts), group= Menopause_status)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q
+```
+
+```{r}
+#ggsave("~/Desktop/Elizabeth_Figures/benign_tumor_INHBB.tiff", plot = last_plot())
+#write.csv(counts, "~/Desktop/Elizabeth_Figures/counts_benign_tumor_INHBB.csv")
+```
+
+#### ACVR1B
+```{r}
+counts <- counts(dds['ENSG00000135503.8',], normalized = TRUE)
+col = c("Menopause"= "#20A387FF", "Post-Menopause" = "#453781FF", "Pre-Menopause" = "#33638DFF")
+m <- list(counts = as.numeric(counts), group= Menopause_status)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of ACVR1B")
+q
+```
+
+```{r}
+#ggsave("~/Desktop/Elizabeth_Figures/benign_tumor_ACVR1B.tiff", plot = last_plot())
+#write.csv(counts, "~/Desktop/Elizabeth_Figures/counts_benign_tumor_ACVR1B.csv")
+```
+
+#### ACVR1C
+```{r}
+counts <- counts(dds['ENSG00000123612.11',], normalized = TRUE)
+col = c("Menopause"= "#20A387FF", "Post-Menopause" = "#453781FF", "Pre-Menopause" = "#33638DFF")
+m <- list(counts = as.numeric(counts), group= Menopause_status)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of ACVR1C")
+q
+```
+
+```{r}
+#ggsave("~/Desktop/Elizabeth_Figures/benign_tumor_ACVR1C.tiff", plot = last_plot())
+#write.csv(counts, "~/Desktop/Elizabeth_Figures/counts_benign_tumor_ACVR1C.csv")
+```
+
+#### CD8A
+```{r}
+counts <- counts(dds['ENSG00000153563.11',], normalized = TRUE)
+col = c("Menopause"= "#20A387FF", "Post-Menopause" = "#453781FF", "Pre-Menopause" = "#33638DFF")
+m <- list(counts = as.numeric(counts), group= Menopause_status)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of CD8A")
+q
+```
+
+```{r}
+#ggsave("~/Desktop/Elizabeth_Figures/benign_tumor_CD8A.tiff", plot = last_plot())
+#write.csv(counts, "~/Desktop/Elizabeth_Figures/counts_benign_tumor_CD8A.csv")
+```
+
+#### CD3G
+```{r}
+counts <- counts(dds['ENSG00000160654.5',], normalized = TRUE)
+col = c("Menopause"= "#20A387FF", "Post-Menopause" = "#453781FF", "Pre-Menopause" = "#33638DFF")
+m <- list(counts = as.numeric(counts), group= Menopause_status)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of CD3G")
+q
+```
+
+```{r}
+#ggsave("~/Desktop/Elizabeth_Figures/benign_tumor_CD3G.tiff", plot = last_plot())
+#write.csv(counts, "~/Desktop/Elizabeth_Figures/counts_benign_tumor_CD3G.csv")
+```
+
+#### MMP3 
+```{r}
+counts <- counts(dds['ENSG00000149968.7',], normalized = TRUE)
+col = c("Menopause"= "#20A387FF", "Post-Menopause" = "#453781FF", "Pre-Menopause" = "#33638DFF")
+m <- list(counts = as.numeric(counts), group= Menopause_status)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of MMP3")
+q
+```
+
+```{r}
+#ggsave("~/Desktop/Elizabeth_Figures/benign_tumor_MMP3.tiff", plot = last_plot())
+#write.csv(counts, "~/Desktop/Elizabeth_Figures/counts_benign_tumor_MMP3.csv")
+```
+
+#### MMP13
+```{r}
+counts <- counts(dds['ENSG00000137745.7',], normalized = TRUE)
+col = c("Menopause"= "#20A387FF", "Post-Menopause" = "#453781FF", "Pre-Menopause" = "#33638DFF")
+m <- list(counts = as.numeric(counts), group= Menopause_status)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of MMP13")
+q
+```
+
+```{r}
+#ggsave("~/Desktop/Elizabeth_Figures/benign_tumor_MMP13.tiff", plot = last_plot())
+#write.csv(counts, "~/Desktop/Elizabeth_Figures/counts_benign_tumor_MMP13.csv")
+```
+
+#### CD4
+```{r}
+counts <- counts(dds['ENSG00000010610.5',], normalized = TRUE)
+col = c("Menopause"= "#20A387FF", "Post-Menopause" = "#453781FF", "Pre-Menopause" = "#33638DFF")
+m <- list(counts = as.numeric(counts), group= Menopause_status)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of CD4")
+q
+```
+
+```{r}
+#ggsave("~/Desktop/Elizabeth_Figures/benign_tumor_CD4.tiff", plot = last_plot())
+#write.csv(counts, "~/Desktop/Elizabeth_Figures/counts_benign_tumor_CD4.csv")
+```
+
+#### CD25/ ILR2A
+```{r}
+counts <- counts(dds['ENSG00000134460.11',], normalized = TRUE)
+col = c("Menopause"= "#20A387FF", "Post-Menopause" = "#453781FF", "Pre-Menopause" = "#33638DFF")
+m <- list(counts = as.numeric(counts), group= Menopause_status)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression CD25/ ILR2A")
+q
+```
+
+```{r}
+#ggsave("~/Desktop/Elizabeth_Figures/benign_tumor_CD25.tiff", plot = last_plot())
+#write.csv(counts, "~/Desktop/Elizabeth_Figures/counts_benign_tumor_CD25.csv")
+```
+
+
+
+#### FRAS1
+```{r}
+counts <- counts(dds['ENSG00000138759.13',], normalized = TRUE)
+col = c("Menopause"= "#20A387FF", "Post-Menopause" = "#453781FF", "Pre-Menopause" = "#33638DFF")
+m <- list(counts = as.numeric(counts), group= Menopause_status)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression FRAS1")
+q
+```
+
+#Age related markers ex: GDF15 
+
+#all TGFB including R3 
+#CD8 CD4,

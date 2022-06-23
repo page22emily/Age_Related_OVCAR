@@ -1,0 +1,67 @@
+---
+title: "Recount3"
+output: html_document
+date: '2022-06-21'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library("recount3")
+
+ovarian_recount3 <- recount3::create_rse_manual(
+  project = "OV",
+  project_home = "data_sources/tcga",
+  organism = "human",
+  annotation = "gencode_v26",
+  type = "gene"
+)
+```
+
+```{r}
+ovarian_counts <- ovarian_recount3@assays@data@listData$raw_counts
+write.csv(ovarian_counts, "~/Desktop/rawcounts.csv")
+```
+
+```{r}
+#necessary meta data 
+tcga_barcodes <- ovarian_recount3@colData@listData[["tcga.tcga_barcode"]]
+project_names <- ovarian_recount3@colData@listData[["tcga.gdc_cases.project.name"]]
+
+write.csv(tcga_barcodes, "~/Desktop/barcodes.csv")
+write.csv(project_names, "~/Desktop/project_names.csv")
+```
+
+```{r}
+case_id <- ovarian_recount3@colData@listData[["tcga.gdc_cases.case_id"]]
+
+write.csv(case_id, "~/Desktop/case_id.csv")
+```
+
+before this make the meta information from TCGA's website as well as the information from above 
+
+```{r message= FALSE, warning= FALSE, echo=FALSE}
+library(tximport)
+library(GenomicFeatures)
+library(TxDb.Hsapiens.UCSC.hg19.knownGene)
+library(DESeq2)
+library(tibble)
+library(ggplot2)
+```
+
+
+```{r message= FALSE, warning= FALSE, echo=FALSE}
+sample_meta_data <- read.csv("~/Desktop/TCGA_meta.csv")
+sampleNames <- sample_meta_data$From_Original_Order
+Menopause_status <- sample_meta_data$Menopause_status
+sampleTable <- data.frame(sampleName = sampleNames,
+                          condition = Menopause_status)
+sampleTable$condition <- factor(sampleTable$condition)
+dds <- DESeqDataSetFromMatrix(ovarian_counts, sampleTable, ~condition)
+dds <- DESeq(dds)
+res <- results(dds)
+```
+
+
