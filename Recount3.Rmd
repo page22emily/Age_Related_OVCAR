@@ -53,7 +53,7 @@ library(ggplot2)
 
 
 ```{r message= FALSE, warning= FALSE, echo=FALSE}
-sample_meta_data <- read.csv("~/Desktop/TCGA_meta.csv")
+sample_meta_data <- read.csv("~/Documents/Mythreye_Lab/Asha/TCGA_meta.csv")
 sampleNames <- sample_meta_data$From_Original_Order
 Menopause_status <- sample_meta_data$Menopause_status
 sampleTable <- data.frame(sampleName = sampleNames,
@@ -63,5 +63,652 @@ dds <- DESeqDataSetFromMatrix(ovarian_counts, sampleTable, ~condition)
 dds <- DESeq(dds)
 res <- results(dds)
 ```
+```{r}
+res
+```
+
+```{r}
+resOrdered <- res[order(res$pvalue),]
+summary(res)
+```
 
 
+```{r}
+res05 <- results(dds, alpha=0.05)
+summary(res05)
+```
+
+```{r}
+plotMA(res, ylim= c(-2,2))
+```
+This is for the minimum p value found 
+This is IGKV2OR2-1A
+```{r}
+plotCounts(dds, gene=which.min(res$padj), intgroup="condition")
+```
+This is for the greatest log2fold change present
+The gene here is MTRNR2L5 
+```{r}
+plotCounts(dds, gene=which.max(res$log2FoldChange), intgroup="condition")
+```
+```{r}
+vsd <- vst(dds, blind=FALSE)
+```
+
+
+```{r}
+rld <- rlog(dds, blind=FALSE)
+```
+
+
+```{r}
+ntd <- normTransform(dds)
+library("vsn")
+meanSdPlot(assay(ntd))
+```
+
+
+```{r}
+meanSdPlot(assay(vsd))
+```
+```{r}
+sampleDists <- dist(t(assay(vsd)))
+```
+
+```{r}
+library("RColorBrewer")
+library("pheatmap")
+sampleDistMatrix <- as.matrix(sampleDists)
+rownames(sampleDistMatrix) <- paste(vsd$condition)
+colnames(sampleDistMatrix) <- NULL
+colors <- colorRampPalette( rev(brewer.pal(9, "Blues")) )(255)
+pheatmap(sampleDistMatrix,
+         clustering_distance_rows=sampleDists,
+         clustering_distance_cols=sampleDists,
+         col=colors, annRow= vsd$condition)
+```
+```{r}
+plotPCA(vsd, intgroup=c("condition"))
+```
+
+```{r}
+plotDispEsts(dds)
+```
+```{r}
+counts <- counts(dds[,], normalized = TRUE)
+write.csv(counts, "~/Desktop/normalized_counts_aging_tcga.csv")
+```
+
+```{r}
+results <- results(dds)
+```
+
+```{r}
+write.csv(results, "~/Desktop/results_aging_tcga.csv")
+```
+
+Genes from the Results, P value less than .05, and L2FC of less than -2 or greater than 2 
+
+
+ADIG/ SMAF1 
+Plays a role in stimulating adipocyte differentiation and development
+```{r}
+plotCounts(dds, gene= "ENSG00000182035.11", intgroup="condition")
+```
+
+
+```{r}
+counts <- counts(dds['ENSG00000182035.11',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of ADIG/SMAF1")
+q
+```
+ARL2BPP5  
+ADP Ribosylation Factor Like GTPase 2 Binding Protein Pseudogene 5 
+MRNA from GTEx shows that it is present in the Uterus but not the ovary 
+```{r}
+counts <- counts(dds['ENSG00000254351.1',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of ARL2BPP5 ")
+q
+```
+ATOH1
+Atonal BHLH Transcription Factor 1 (entertianingly, BHLH is not present in the list)
+GO terms list it as part of the Notch Signaling Pathway 
+mRNA GTEx find it present everyhere essentially 
+```{r}
+counts <- counts(dds['ENSG00000172238.4',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of ATOH1")
+q
+```
+CBLL2 
+Protein Coding gene. Among its related pathways are Class I MHC mediated antigen processing and presentation and Innate Immune System. An important paralog of this gene is CBLL1.
+No GTEx info besides sperm 
+```{r}
+counts <- counts(dds['ENSG00000175809.5',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of CBLL2")
+q
+```
+COX8C 
+Cytochrome C Oxidase Subunit 8C) is a Protein Coding gene. Among its related pathways are AMPK Enzyme Complex Pathway. Gene Ontology (GO) annotations related to this gene include cytochrome-c oxidase activity. An important paralog of this gene is COX8A.
+GTEx shows that the mRNA expression is in the ovary
+```{r}
+counts <- counts(dds['ENSG00000187581.2',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of COX8C")
+q
+```
+DDX53
+This intronless gene encodes a protein which contains several domains found in members of the DEAD-box helicase protein family. Other members of this protein family participate in ATP-dependent RNA unwinding. 
+DDX53 (DEAD-Box Helicase 53) is a Protein Coding gene. 
+Gene Ontology (GO) annotations related to this gene include nucleic acid binding and RNA helicase activity. An important paralog of this gene is DDX43.
+GTEx shows it present in the ovary 
+```{r}
+counts <- counts(dds['ENSG00000184735.6',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of DDX53")
+q
+```
+FOXB1
+Enables sequence-specific double-stranded DNA binding activity. Predicted to be involved in several processes, including mammary gland development; nervous system development; and visual learning. Predicted to act upstream of or within spinal cord development; thalamus development; and urogenital system development. Predicted to be located in nucleus. Predicted to be part of chromatin. [provided by Alliance of Genome Resources, Apr 2022]
+Forkhead Box B1 is a Protein Coding gene. 
+Gene Ontology (GO) annotations related to this gene include DNA-binding transcription factor activity and DNA-binding transcription factor activity, RNA polymerase II-specific. An important paralog of this gene is FOXB2.
+GTEx shows it present in the ovary 
+```{r}
+counts <- counts(dds['ENSG00000171956.6',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of FOXB1")
+q
+```
+
+
+FOXD1 
+belongs to the forkhead family of transcription factors which are characterized by a distinct forkhead domain.  It may also regulate inflammatory reactions and prevent autoimmunity. [provided by RefSeq, Apr 2014]
+FOXD1 (Forkhead Box D1) is a Protein Coding gene.  
+Among its related pathways are Pre-implantation embryo and Genes controlling nephrogenesis. 
+Gene Ontology (GO) annotations related to this gene include DNA-binding transcription factor activity and RNA polymerase II cis-regulatory region sequence-specific DNA binding. 
+GTEx shows that the mRNA is present in the ovary 
+```{r}
+counts <- counts(dds['ENSG00000251493.4',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of FOXD1")
+q
+```
+
+FOXD1 Antisense RNA 1
+```{r}
+counts <- counts(dds['ENSG00000247993.2',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of FOXD1-AS1")
+q
+```
+FOXD3-AS1 
+(FOXD3 Antisense RNA 1) is an RNA Gene, and is affiliated with the lncRNA class. Diseases associated with FOXD3-AS1 include High Grade Glioma and Autoimmune Disease 1.
+GTEx has mRNA expression in the ovary 
+```{r}
+counts <- counts(dds['ENSG00000230798.5',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of FOXD3-AS1")
+q
+```
+FTMT
+Predicted to enable ferric iron binding activity and ferrous iron binding activity. Involved in several processes, including cellular iron ion homeostasis; positive regulation of aconitate hydratase activity; and positive regulation of succinate dehydrogenase activity. Located in nucleus. [provided by Alliance of Genome Resources, Apr 2022]
+FTMT (Ferritin Mitochondrial) is a Protein Coding gene. 
+Among its related pathways are Ferroptosis and Transport of inorganic cations/anions and amino acids/oligopeptides. Gene Ontology (GO) annotations related to this gene include ferric iron binding and ferroxidase activity. An important paralog of this gene is FTH1.
+GTEX shows mRNA in the ovary 
+
+```{r}
+counts <- counts(dds['ENSG00000181867.2',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of FTMT")
+q
+```
+GAGE genes 
+This gene belongs to a family of genes that are expressed in a variety of tumors but not in normal tissues, except for the testis. The sequences of the family members are highly related but differ by scattered nucleotide substitutions. The antigenic peptide YRPRPRRY, which is also encoded by several other family members, is recognized by autologous cytolytic T lymphocytes. Nothing is presently known about the function of this protein. Alternative splicing results in multiple transcript variants. [provided by RefSeq, Jun 2010]
+This gene belongs to a multigene family expressed in a large variety of tumors whereas in normal tissues, expression is restricted to germ cells. These genes organized in clustered repeats, have a high degree of predicted sequence identity, but differ by scattered single nucleotide substitution. Their sequences contain either the antigenic peptide YYWPRPRRY or YRPRPRRY which is recognized by cytotoxic T-cells.
+
+GAGE1
+```{r}
+counts <- counts(dds['ENSG00000205777.17',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of GAGE1")
+q
+```
+
+GAGE12D
+```{r}
+counts <- counts(dds['ENSG00000227488.2',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of GAGE12D")
+q
+```
+GAGE12E
+```{r}
+counts <- counts(dds['ENSG00000216649.3',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of GAGE12E")
+q
+```
+
+ENSG00000215269.5	GAGE12G
+```{r}
+counts <- counts(dds['ENSG00000215269.5',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of GAGE12G")
+q
+```
+
+GAGE12H
+```{r}
+counts <- counts(dds['ENSG00000224902.5',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of GAGE12H")
+q
+```
+
+GAGE13
+```{r}
+counts <- counts(dds['ENSG00000274274.1',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of GAGE13")
+q
+```
+
+GAGE2A
+```{r}
+counts <- counts(dds['ENSG00000189064.8',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of GAGE2A")
+q
+```
+
+GAGE2E
+```{r}
+counts <- counts(dds['ENSG00000275113.1',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of GAGE2E")
+q
+```
+HNF1A Antisense RNA 1 (HGNC, NCBI Entrez Gene, Ensembl)
+HAS1 (HGNC, NCBI Entrez Gene, Ensembl)
+HNF1A Antisense RNA 1 (Non-Protein Coding) (HGNC, NCBI Entrez Gene)
+```{r}
+counts <- counts(dds['ENSG00000241388.4',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of HNF1A")
+q
+```
+HOTTIP 
+This gene produces a long RNA in antisense to the HOXA gene cluster. This transcript may regulate expression of HOXA genes in cis. This gene is upregulated in tumors and is implicated in the promotion of cell proliferation. [provided by RefSeq, Dec 2017]
+```{r}
+counts <- counts(dds['ENSG00000243766.7',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of HOTTIP")
+q
+```
+HOXC10 Gene 
+This gene belongs to the homeobox family of genes. The homeobox genes encode a highly conserved family of transcription factors that play an important role in morphogenesis in all multicellular organisms. Mammals possess four similar homeobox gene clusters, HOXA, HOXB, HOXC and HOXD, which are located on different chromosomes and consist of 9 to 11 genes arranged in tandem. This gene is one of several homeobox HOXC genes located in a cluster on chromosome 12. The protein level is controlled during cell differentiation and proliferation, which may indicate this protein has a role in origin activation. [provided by RefSeq, Jul 2008]
+GTEx shows mRNA expression in the ovary 
+
+```{r}
+counts <- counts(dds['ENSG00000180818.4',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of HOXC10")
+q
+```
+
+HOXC11
+HOXC11 (Homeobox C11) is a Protein Coding gene. Among its related pathways are Endoderm differentiation. Gene Ontology (GO) annotations related to this gene include RNA polymerase II cis-regulatory region sequence-specific DNA binding and DNA-binding transcription activator activity, RNA polymerase II-specific. An important paralog of this gene is HOXA11.
+GTEx shows it in the ovary 
+```{r}
+counts <- counts(dds['ENSG00000123388.4',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of HOXC11")
+q
+```
+Did not include the IGH, IGK,IGLC genes because they are different chains; can revisit (and probably should)
+There are about 132 of them 
+
+KDM4F 
+Predicted to enable histone H3-methyl-lysine-9 demethylase activity. Predicted to be involved in chromatin remodeling. Predicted to be active in nucleus. [provided by Alliance of Genome Resources, Apr 2022]
+```{r}
+counts <- counts(dds['ENSG00000255855.2',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of KDM4F")
+q
+```
+Did not include LINCs but could revisit (approximately 42)
+
+LTF 
+This gene is a member of the transferrin family of genes and its protein product is found in the secondary granules of neutrophils. The protein is a major iron-binding protein in milk and body secretions with an antimicrobial activity, making it an important component of the non-specific immune system. The protein demonstrates a broad spectrum of properties, including regulation of iron homeostasis, host defense against a broad range of microbial infections, anti-inflammatory activity, regulation of cellular growth and differentiation and protection against cancer development and metastasis. Antimicrobial, antiviral, antifungal and antiparasitic activity has been found for this protein and its peptides. Activity against both DNA and RNA viruses has been found, including activity against SARS-CoV-2, and HIV. [provided by RefSeq, Jul 2021]
+Present in the ovary based on GTEx 
+```{r}
+counts <- counts(dds['ENSG00000012223.12',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of LTF")
+q
+```
+MAGEA6
+Activator of ubiquitin ligase activity of RING-type zinc finger-containing E3 ubiquitin-protein ligases that acts as a as repressor of autophagy (PubMed:31267705, PubMed:17942928, PubMed:20864041). May enhance ubiquitin ligase activity of TRIM28 and stimulate p53/TP53 ubiquitination by TRIM28. Proposed to act through recruitment and/or stabilization of the Ubl-conjugating enzyme (E2) at the E3:substrate complex (PubMed:17942928, PubMed:20864041). May play a role in tumor transformation or aspects of tumor progression (PubMed:17942928, PubMed:20864041). In vitro promotes cell viability in melanoma cell lines (PubMed:17942928). MAGA6_HUMAN,P43360
+Present in ovary GTEx 
+```{r}
+counts <- counts(dds['ENSG00000197172.10',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of MAGEA6")
+q
+```
+
+MAGEA9 
+(MAGE Family Member A9) is a Protein Coding gene. Diseases associated with MAGEA9 include Melanoma and Terminal Osseous Dysplasia. An important paralog of this gene is MAGEA9B.
+UniProtKB/Swiss-Prot Summary for MAGEA9 Gene
+Not known, though may play a role in embryonal development and tumor transformation or aspects of tumor progression. 
+```{r}
+counts <- counts(dds['ENSG00000123584.7',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of MAGEA9")
+q
+```
+
+MAGEA9B
+```{r}
+counts <- counts(dds['ENSG00000267978.5',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of MAGEA9B")
+q
+```
+MAGEC1
+This gene is a member of the melanoma antigen gene (MAGE) family. The proteins of this family are tumor-specific antigens that can be recognized by autologous cytolytic T lymphocytes. This protein contains a large number of unique short repetitive sequences in front of the MAGE-homologous sequence, and therefore is about 800 aa longer than the other MAGE proteins. [provided by RefSeq, Jul 2008]
+
+```{r}
+counts <- counts(dds['ENSG00000155495.8',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of MAGEC1")
+q
+```
+
+MAGEC2
+(same as above)
+```{r}
+counts <- counts(dds['ENSG00000046774.9',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of MAGEC2")
+q
+```
+Did not include microRNAs (there are 5) or mitochondria (there are 11), could revisit
+
+GeneCards Summary for NAA11 Gene
+NAA11 (N-Alpha-Acetyltransferase 11, NatA Catalytic Subunit) is a Protein Coding gene. Diseases associated with NAA11 include Microphthalmia, Syndromic 1. Gene Ontology (GO) annotations related to this gene include acyltransferase activity, transferring groups other than amino-acyl groups and peptide alpha-N-acetyltransferase activity. 
+Present in ovary according to GTEx 
+```{r}
+counts <- counts(dds['ENSG00000156269.4',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of NAA11")
+q
+```
+NXF2 
+(Nuclear RNA Export Factor 2) is a Protein Coding gene. Diseases associated with NXF2 include Progesterone-Receptor Negative Breast Cancer and Spermatogenic Failure. Among its related pathways are Transport of Mature Transcript to Cytoplasm and Processing of Capped Intron-Containing Pre-mRNA. Gene Ontology (GO) annotations related to this gene include RNA binding and nucleotide binding. An important paralog of this gene is NXF2B.
+Present in ovary 
+```{r}
+counts <- counts(dds['ENSG00000269405.6',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of NXF2")
+q
+```
+NXF2B
+```{r}
+counts <- counts(dds['ENSG00000269437.6',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of NXF2B")
+q
+```
+
+NXF5
+```{r}
+counts <- counts(dds['ENSG00000126952.16',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of NXF5")
+q
+```
+
+
+OLFM3 
+Peripherally associated with AMPAR complex. AMPAR complex consists of an inner core made of 4 pore-forming GluA/GRIA proteins (GRIA1, GRIA2, GRIA3 and GRIA4) and 4 major auxiliary subunits arranged in a twofold symmetry. One of the two pairs of distinct binding sites is occupied either by CNIH2, CNIH3 or CACNG2, CACNG3. The other harbors CACNG2, CACNG3, CACNG4, CACNG8 or GSG1L. This inner core of AMPAR complex is complemented by outer core constituents binding directly to the GluA/GRIA proteins at sites distinct from the interaction sites of the inner core constituents. Outer core constituents include at least PRRT1, PRRT2, CKAMP44/SHISA9, FRRS1L and NRN1. The proteins of the inner and outer core serve as a platform for other, more peripherally associated AMPAR constituents, including OLFM3. Alone or in combination, these auxiliary subunits control the gating and pharmacology of the AMPAR complex and profoundly impact their biogenesis and protein processing. Homodimer. Interacts with MYOC (By similarity). Interacts with OLFM2 (PubMed:21228389).
+GTEx shows present in ovary 
+```{r}
+counts <- counts(dds['ENSG00000118733.16',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of OLFM3")
+q
+```
+OLFM4
+```{r}
+counts <- counts(dds['ENSG00000102837.6',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of OLFM4")
+q
+```
+OLIG3 Gene 
+Enables sequence-specific double-stranded DNA binding activity. Predicted to be involved in neuron differentiation and regulation of transcription by RNA polymerase II. Predicted to act upstream of or within negative regulation of transcription by RNA polymerase II; spinal cord motor neuron cell fate specification; and spinal cord motor neuron migration. Predicted to be part of chromatin. Predicted to be active in nucleus. [provided by Alliance of Genome Resources, Apr 2022]
+```{r}
+counts <- counts(dds['ENSG00000177468.6',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of OLIG3")
+q
+```
+Did not do the OR genes because they are olfactory genes 
+
+PAGE genes 
+no real logic for the PAGE genes minus that they show GAGE like activity, including in the ovary
+(PMID: 9724777)
+PAGE2
+```{r}
+counts <- counts(dds['ENSG00000234068.6',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of PAGE2")
+q
+```
+
+PAGE2B
+```{r}
+counts <- counts(dds['ENSG00000238269.8',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of PAGE2B")
+q
+```
+
+PAGE5
+```{r}
+counts <- counts(dds['ENSG00000158639.12',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of PAGE5")
+q
+```
+
+L2FC >2 
+MTRNR2L5
+```{r}
+counts <- counts(dds['ENSG00000249860.3',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of MTRNR2L5")
+q
+```
+
+OR4P1P
+```{r}
+counts <- counts(dds['ENSG00000188439.3',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of OR4P1P")
+q
+```
+
+OR2T11
+```{r}
+counts <- counts(dds['ENSG00000279301.3',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of OR2T11")
+q
+```
+
+SEL1L2
+```{r}
+counts <- counts(dds['ENSG00000101251.11',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of SEL1L2")
+q
+```
+
+CRLF2
+```{r}
+counts <- counts(dds['ENSG00000205755.11',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of CRLF2")
+q
+```
+
+CACNG6
+```{r}
+counts <- counts(dds['ENSG00000130433.7',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of CACNG6")
+q
+```
