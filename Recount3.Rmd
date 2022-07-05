@@ -712,3 +712,136 @@ q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitte
 q <- q + labs(y = "Normalized Counts ", title = "Expression of CACNG6")
 q
 ```
+"Lab Genes" just to see how they look; they did not show up in the L2FC data I have filtered 
+
+INHBA
+```{r}
+counts <- counts(dds['ENSG00000122641.10',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition )
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts", title = "Expression of INHBA")
+q
+```
+
+ACVR2A
+```{r}
+counts <- counts(dds['ENSG00000121989.14',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of ACVR2A")
+q
+```
+
+ACVR2B
+```{r}
+counts <- counts(dds['ENSG00000114739.13',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of ACVR2B")
+q
+```
+
+FOXP3
+```{r}
+counts <- counts(dds['ENSG00000049768.14',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of FOXP3")
+q
+```
+
+INHBB
+```{r}
+counts <- counts(dds['ENSG00000163083.5',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of INHBB")
+q
+```
+
+ACVR1B
+```{r}
+counts <- counts(dds['ENSG00000135503.12',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of ACVR1B")
+q
+```
+
+
+ACVR1C
+```{r}
+counts <- counts(dds['ENSG00000123612.15',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of ACVR1C")
+q
+```
+
+CD8A
+```{r}
+counts <- counts(dds['ENSG00000153563.15',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of CD8A")
+q
+```
+
+CD3G
+```{r}
+counts <- counts(dds['ENSG00000160654.9',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of CD3G")
+q
+```
+
+MMP3 
+```{r}
+counts <- counts(dds['ENSG00000149968.11',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of MMP3")
+q
+```
+
+MMP13
+```{r}
+counts <- counts(dds['ENSG00000137745.11',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of MMP13")
+q
+```
+
+CD4
+```{r}
+counts <- counts(dds['ENSG00000010610.9',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of CD4")
+q
+```
+
+
+CD25/ ILR2A
+```{r}
+counts <- counts(dds['ENSG00000134460.15',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression CD25/ ILR2A")
+q
+```
