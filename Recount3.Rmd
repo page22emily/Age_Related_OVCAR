@@ -148,14 +148,14 @@ write.csv(results, "~/Desktop/results_aging_tcga.csv")
 ```
 
 Genes from the Results, P value less than .05, and L2FC of less than -2 or greater than 2 
-
+Menopause ages
+Premenopause: Less than 45
+Perimenopausal: 45-50
+Menopausal: 50-60
+Post-menopause 60+
 
 ADIG/ SMAF1 
 Plays a role in stimulating adipocyte differentiation and development
-```{r}
-plotCounts(dds, gene= "ENSG00000182035.11", intgroup="condition")
-```
-
 
 ```{r}
 counts <- counts(dds['ENSG00000182035.11',], normalized = TRUE)
@@ -166,55 +166,285 @@ q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitte
 q <- q + labs(y = "Normalized Counts ", title = "Expression of ADIG/SMAF1")
 q
 ```
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_ADIG.csv")
+```
+
+AIFM1P1	
+```{r}
+counts <- counts(dds['ENSG00000225509.1',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of AIFM1P1")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_AIFM1P1.csv")
+```
+
+
+AKAIN1
+```{r}
+counts <- counts(dds['ENSG00000231824.3',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of AKAIN1")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_AKAIN1.csv")
+```
+
+ALPI
+```{r}
+counts <- counts(dds['ENSG00000163295.4',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of ALPI")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_ALPI.csv")
+```
+
 ARL2BPP5  
 ADP Ribosylation Factor Like GTPase 2 Binding Protein Pseudogene 5 
 MRNA from GTEx shows that it is present in the Uterus but not the ovary 
 ```{r}
 counts <- counts(dds['ENSG00000254351.1',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
-q <- q + labs(y = "Normalized Counts ", title = "Expression of ARL2BPP5 ")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of ARL2BPP5")
 q
 ```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_ARL2BPP5.csv")
+```
+
+ASCL1					
+```{r}
+counts <- counts(dds['ENSG00000139352.3',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of ASCL1")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_ASCL1.csv")
+```
+
 ATOH1
 Atonal BHLH Transcription Factor 1 (entertianingly, BHLH is not present in the list)
 GO terms list it as part of the Notch Signaling Pathway 
 mRNA GTEx find it present everyhere essentially 
 ```{r}
 counts <- counts(dds['ENSG00000172238.4',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
-q <- q + labs(y = "Normalized Counts ", title = "Expression of ATOH1")
+q <- q + labs(y = "Normalized Counts", title = "Expression of ATOH1")
 q
 ```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_ATOH1.csv")
+```
+
+BCRP9	
+```{r}
+counts <- counts(dds['ENSG00000271287.1',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of BCRP9")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_BCRP9.csv")
+```
+
+BNIP3P2	
+```{r}
+counts <- counts(dds['ENSG00000236097.1',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of BNIP3P2")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_BNIP3P2.csv")
+```
+
 CBLL2 
 Protein Coding gene. Among its related pathways are Class I MHC mediated antigen processing and presentation and Innate Immune System. An important paralog of this gene is CBLL1.
 No GTEx info besides sperm 
 ```{r}
 counts <- counts(dds['ENSG00000175809.5',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
-q <- q + labs(y = "Normalized Counts ", title = "Expression of CBLL2")
+q <- q + labs(y = "Normalized Counts", title = "Expression of CBLL2")
 q
 ```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_CBLL2.csv")
+```
+
+CCDC140	
+```{r}
+counts <- counts(dds['ENSG00000163081.2',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of CCDC140")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_CCDC140.csv")
+```
+
+CDH9
+```{r}
+counts <- counts(dds['ENSG00000113100.9',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of CDH9")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_CDH9.csv")
+```
+
+```{r}
+counts <- counts(dds['ENSG00000224778.1',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of CENPIP1")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_CENPIP1.csv")
+```
+
+CHGA
+```{r}
+counts <- counts(dds['ENSG00000100604.12',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of CHGA")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_CHGA.csv")
+```
+
+CLEC2L
+```{r}
+counts <- counts(dds['ENSG00000236279.6',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of CLEC2L")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_CLEC2L.csv")
+```
+
+CNTFR		
+```{r}
+counts <- counts(dds['ENSG00000122756.14',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of CNTFR")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_CNTFR.csv")
+```
+
 COX8C 
 Cytochrome C Oxidase Subunit 8C) is a Protein Coding gene. Among its related pathways are AMPK Enzyme Complex Pathway. Gene Ontology (GO) annotations related to this gene include cytochrome-c oxidase activity. An important paralog of this gene is COX8A.
 GTEx shows that the mRNA expression is in the ovary
 ```{r}
 counts <- counts(dds['ENSG00000187581.2',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
 q <- q + labs(y = "Normalized Counts ", title = "Expression of COX8C")
 q
 ```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_COX8C.csv")
+```
+
+CSMD1	
+```{r}
+counts <- counts(dds['ENSG00000183117.18',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of CSMD1")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_CSMD1.csv")
+```
+
+CYCSP6
+```{r}
+counts <- counts(dds['ENSG00000214429.3',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of CYCSP6")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_CYCSP6.csv")
+```
+
+DCAF4L2	
+```{r}
+counts <- counts(dds['ENSG00000176566.4',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of DCAF4L2")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_DCAF4L2.csv")
+```
+
 DDX53
 This intronless gene encodes a protein which contains several domains found in members of the DEAD-box helicase protein family. Other members of this protein family participate in ATP-dependent RNA unwinding. 
 DDX53 (DEAD-Box Helicase 53) is a Protein Coding gene. 
@@ -222,13 +452,157 @@ Gene Ontology (GO) annotations related to this gene include nucleic acid binding
 GTEx shows it present in the ovary 
 ```{r}
 counts <- counts(dds['ENSG00000184735.6',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
 q <- q + labs(y = "Normalized Counts ", title = "Expression of DDX53")
 q
 ```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_DDX53.csv")
+```
+
+DNM1P31
+```{r}
+counts <- counts(dds['ENSG00000261491.1',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of DNM1P31")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_DNM1P31.csv")
+```
+
+DSCR10	
+```{r}
+counts <- counts(dds['ENSG00000233316.4',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of DSCR10")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_DSCR10.csv")
+```
+
+DSCR4-IT1		
+```{r}
+counts <- counts(dds['ENSG00000223608.1',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of DSCR4-IT1")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_DSCR4-IT1.csv")
+```
+
+EIF4A3P1
+```{r}
+counts <- counts(dds['ENSG00000266181.1',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of EIF4A3P1")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_EIF4A3P1.csv")
+```
+
+ENSAP1	
+```{r}
+counts <- counts(dds['ENSG00000224274.1',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of ENSAP1")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_ENSAP1.csv")
+```
+
+FAM177A1P1	
+```{r}
+counts <- counts(dds['ENSG00000214886.4',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of FAM177A1P1")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_FAM177A1P1.csv")
+```
+
+FAM27E5	
+```{r}
+counts <- counts(dds['ENSG00000178130.9',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of FAM27E5")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_FAM27E5.csv")
+```
+
+FAM83C	
+```{r}
+counts <- counts(dds['ENSG00000125998.7',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of FAM83C")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_FAM83C.csv")
+```
+
+FLG			
+```{r}
+counts <- counts(dds['ENSG00000143631.10',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of FLG")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_FLG.csv")
+```
+
+FO082842.1	
+```{r}
+counts <- counts(dds['ENSG00000229090.2',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of FO082842.1")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_FO082842.csv")
+```
+
 FOXB1
 Enables sequence-specific double-stranded DNA binding activity. Predicted to be involved in several processes, including mammary gland development; nervous system development; and visual learning. Predicted to act upstream of or within spinal cord development; thalamus development; and urogenital system development. Predicted to be located in nucleus. Predicted to be part of chromatin. [provided by Alliance of Genome Resources, Apr 2022]
 Forkhead Box B1 is a Protein Coding gene. 
@@ -236,7 +610,6 @@ Gene Ontology (GO) annotations related to this gene include DNA-binding transcri
 GTEx shows it present in the ovary 
 ```{r}
 counts <- counts(dds['ENSG00000171956.6',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
@@ -244,6 +617,9 @@ q <- q + labs(y = "Normalized Counts ", title = "Expression of FOXB1")
 q
 ```
 
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_FOXB1.csv")
+```
 
 FOXD1 
 belongs to the forkhead family of transcription factors which are characterized by a distinct forkhead domain.  It may also regulate inflammatory reactions and prevent autoimmunity. [provided by RefSeq, Apr 2014]
@@ -253,7 +629,6 @@ Gene Ontology (GO) annotations related to this gene include DNA-binding transcri
 GTEx shows that the mRNA is present in the ovary 
 ```{r}
 counts <- counts(dds['ENSG00000251493.4',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
@@ -261,28 +636,55 @@ q <- q + labs(y = "Normalized Counts ", title = "Expression of FOXD1")
 q
 ```
 
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_FOXD1.csv")
+```
+
 FOXD1 Antisense RNA 1
 ```{r}
 counts <- counts(dds['ENSG00000247993.2',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
 q <- q + labs(y = "Normalized Counts ", title = "Expression of FOXD1-AS1")
 q
 ```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_FOXD1AS1.csv")
+```
+
 FOXD3-AS1 
 (FOXD3 Antisense RNA 1) is an RNA Gene, and is affiliated with the lncRNA class. Diseases associated with FOXD3-AS1 include High Grade Glioma and Autoimmune Disease 1.
 GTEx has mRNA expression in the ovary 
 ```{r}
 counts <- counts(dds['ENSG00000230798.5',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
 q <- q + labs(y = "Normalized Counts ", title = "Expression of FOXD3-AS1")
 q
 ```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_FOX3AS1.csv")
+```
+	
+FTH1P14	
+```{r}
+counts <- counts(dds['ENSG00000185638.9',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of FTH1P14")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_FTH1P14.csv")
+```
+
+
 FTMT
 Predicted to enable ferric iron binding activity and ferrous iron binding activity. Involved in several processes, including cellular iron ion homeostasis; positive regulation of aconitate hydratase activity; and positive regulation of succinate dehydrogenase activity. Located in nucleus. [provided by Alliance of Genome Resources, Apr 2022]
 FTMT (Ferritin Mitochondrial) is a Protein Coding gene. 
@@ -291,13 +693,31 @@ GTEX shows mRNA in the ovary
 
 ```{r}
 counts <- counts(dds['ENSG00000181867.2',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
 q <- q + labs(y = "Normalized Counts ", title = "Expression of FTMT")
 q
 ```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_FTMT.csv")
+```
+
+GABRR1
+```{r}
+counts <- counts(dds['ENSG00000146276.11',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of GABRR1")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_GABRR1.csv")
+```
+
 GAGE genes 
 This gene belongs to a family of genes that are expressed in a variety of tumors but not in normal tissues, except for the testis. The sequences of the family members are highly related but differ by scattered nucleotide substitutions. The antigenic peptide YRPRPRRY, which is also encoded by several other family members, is recognized by autologous cytolytic T lymphocytes. Nothing is presently known about the function of this protein. Alternative splicing results in multiple transcript variants. [provided by RefSeq, Jun 2010]
 This gene belongs to a multigene family expressed in a large variety of tumors whereas in normal tissues, expression is restricted to germ cells. These genes organized in clustered repeats, have a high degree of predicted sequence identity, but differ by scattered single nucleotide substitution. Their sequences contain either the antigenic peptide YYWPRPRRY or YRPRPRRY which is recognized by cytotoxic T-cells.
@@ -305,7 +725,6 @@ This gene belongs to a multigene family expressed in a large variety of tumors w
 GAGE1
 ```{r}
 counts <- counts(dds['ENSG00000205777.17',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
@@ -313,20 +732,27 @@ q <- q + labs(y = "Normalized Counts ", title = "Expression of GAGE1")
 q
 ```
 
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_GAGE1.csv")
+```
+
 GAGE12D
 ```{r}
 counts <- counts(dds['ENSG00000227488.2',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
 q <- q + labs(y = "Normalized Counts ", title = "Expression of GAGE12D")
 q
 ```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_GAGE12D.csv")
+```
+
 GAGE12E
 ```{r}
 counts <- counts(dds['ENSG00000216649.3',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
@@ -334,10 +760,13 @@ q <- q + labs(y = "Normalized Counts ", title = "Expression of GAGE12E")
 q
 ```
 
-ENSG00000215269.5	GAGE12G
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_GAGE12E.csv")
+```
+
+GAGE12G
 ```{r}
 counts <- counts(dds['ENSG00000215269.5',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
@@ -345,10 +774,13 @@ q <- q + labs(y = "Normalized Counts ", title = "Expression of GAGE12G")
 q
 ```
 
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_GAGE12G.csv")
+```
+
 GAGE12H
 ```{r}
 counts <- counts(dds['ENSG00000224902.5',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
@@ -356,10 +788,13 @@ q <- q + labs(y = "Normalized Counts ", title = "Expression of GAGE12H")
 q
 ```
 
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_GAGE12H.csv")
+```
+
 GAGE13
 ```{r}
 counts <- counts(dds['ENSG00000274274.1',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
@@ -367,10 +802,13 @@ q <- q + labs(y = "Normalized Counts ", title = "Expression of GAGE13")
 q
 ```
 
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_GAGE13.csv")
+```
+
 GAGE2A
 ```{r}
 counts <- counts(dds['ENSG00000189064.8',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
@@ -378,51 +816,182 @@ q <- q + labs(y = "Normalized Counts ", title = "Expression of GAGE2A")
 q
 ```
 
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_GAGE2A.csv")
+```
+
 GAGE2E
 ```{r}
 counts <- counts(dds['ENSG00000275113.1',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
 q <- q + labs(y = "Normalized Counts ", title = "Expression of GAGE2E")
 q
 ```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_GAGE2E.csv")
+```
+
+GDF2
+encodes a secreted ligand of the TGF-beta (transforming growth factor-beta) superfamily of proteins. Ligands of this family bind various TGF-beta receptors leading to recruitment and activation of SMAD family transcription factors that regulate gene expression. The encoded preproprotein is proteolytically processed to generate each subunit of the disulfide-linked homodimer. This protein regulates cartilage and bone development, angiogenesis and differentiation of cholinergic central nervous system neurons. 
+```{r}
+counts <- counts(dds['ENSG00000263761.2',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of GDF2")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_GDF2.csv")
+```
+
+GKN1
+```{r}
+counts <- counts(dds['ENSG00000169605.5',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of GKN1")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_GKN1.csv")
+```
+
+GOLGA6L2
+```{r}
+counts <- counts(dds['ENSG00000174450.11',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of GDF2")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_GOLGA6L2.csv")
+```
+
+HGC6.3	
+```{r}
+counts <- counts(dds['ENSG00000235994.4',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of HGC6.3")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_HGC63.csv")
+```
+
+HMGB1P38
+```{r}
+counts <- counts(dds['ENSG00000243877.1',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of HMGB1P38")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_HMGB1P38.csv")
+```
+
+HMGB1P46
+```{r}
+counts <- counts(dds['ENSG00000254146.1',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of HMGB1P46")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_HMGB1P46.csv")
+```
+
 HNF1A Antisense RNA 1 (HGNC, NCBI Entrez Gene, Ensembl)
 HAS1 (HGNC, NCBI Entrez Gene, Ensembl)
 HNF1A Antisense RNA 1 (Non-Protein Coding) (HGNC, NCBI Entrez Gene)
 ```{r}
 counts <- counts(dds['ENSG00000241388.4',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
 q <- q + labs(y = "Normalized Counts ", title = "Expression of HNF1A")
 q
 ```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_HNF1AAS1.csv")
+```
+
+HNRNPA1P31
+```{r}
+counts <- counts(dds['ENSG00000227862.1',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of HNRNPA1P31")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_HNRNPA1P31.csv")
+```
+
+HNRNPA1P69	
+```{r}
+counts <- counts(dds['ENSG00000257332.1',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of HNRNPA1P69")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_HNRNPA1P69.csv")
+```
+
 HOTTIP 
 This gene produces a long RNA in antisense to the HOXA gene cluster. This transcript may regulate expression of HOXA genes in cis. This gene is upregulated in tumors and is implicated in the promotion of cell proliferation. [provided by RefSeq, Dec 2017]
 ```{r}
 counts <- counts(dds['ENSG00000243766.7',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
 q <- q + labs(y = "Normalized Counts ", title = "Expression of HOTTIP")
 q
 ```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_HOTTIP.csv")
+```
+
 HOXC10 Gene 
 This gene belongs to the homeobox family of genes. The homeobox genes encode a highly conserved family of transcription factors that play an important role in morphogenesis in all multicellular organisms. Mammals possess four similar homeobox gene clusters, HOXA, HOXB, HOXC and HOXD, which are located on different chromosomes and consist of 9 to 11 genes arranged in tandem. This gene is one of several homeobox HOXC genes located in a cluster on chromosome 12. The protein level is controlled during cell differentiation and proliferation, which may indicate this protein has a role in origin activation. [provided by RefSeq, Jul 2008]
 GTEx shows mRNA expression in the ovary 
 
 ```{r}
 counts <- counts(dds['ENSG00000180818.4',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
 q <- q + labs(y = "Normalized Counts ", title = "Expression of HOXC10")
 q
+```
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_HOXC10.csv")
 ```
 
 HOXC11
@@ -430,13 +999,32 @@ HOXC11 (Homeobox C11) is a Protein Coding gene. Among its related pathways are E
 GTEx shows it in the ovary 
 ```{r}
 counts <- counts(dds['ENSG00000123388.4',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
 q <- q + labs(y = "Normalized Counts ", title = "Expression of HOXC11")
 q
 ```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_HOXC11.csv")
+```
+
+IVL	
+```{r}
+counts <- counts(dds['ENSG00000163207.6',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of IVL")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_IVL.csv")
+```
+
+
 Did not include the IGH, IGK,IGLC genes because they are different chains; can revisit (and probably should)
 There are about 132 of them 
 
@@ -444,13 +1032,45 @@ KDM4F
 Predicted to enable histone H3-methyl-lysine-9 demethylase activity. Predicted to be involved in chromatin remodeling. Predicted to be active in nucleus. [provided by Alliance of Genome Resources, Apr 2022]
 ```{r}
 counts <- counts(dds['ENSG00000255855.2',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
 q <- q + labs(y = "Normalized Counts ", title = "Expression of KDM4F")
 q
 ```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_KDM4F.csv")
+```
+
+KRTAP20-4	
+```{r}
+counts <- counts(dds['ENSG00000206105.2',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of KRTAP20-4")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_KRTAP204.csv")
+```
+
+LRRC31	
+```{r}
+counts <- counts(dds['ENSG00000114248.9',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of LRRC31")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_LRRC31.csv")
+```
+
 Did not include LINCs but could revisit (approximately 42)
 
 LTF 
@@ -458,24 +1078,31 @@ This gene is a member of the transferrin family of genes and its protein product
 Present in the ovary based on GTEx 
 ```{r}
 counts <- counts(dds['ENSG00000012223.12',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
 q <- q + labs(y = "Normalized Counts ", title = "Expression of LTF")
 q
 ```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_LTF.csv")
+```
+
 MAGEA6
 Activator of ubiquitin ligase activity of RING-type zinc finger-containing E3 ubiquitin-protein ligases that acts as a as repressor of autophagy (PubMed:31267705, PubMed:17942928, PubMed:20864041). May enhance ubiquitin ligase activity of TRIM28 and stimulate p53/TP53 ubiquitination by TRIM28. Proposed to act through recruitment and/or stabilization of the Ubl-conjugating enzyme (E2) at the E3:substrate complex (PubMed:17942928, PubMed:20864041). May play a role in tumor transformation or aspects of tumor progression (PubMed:17942928, PubMed:20864041). In vitro promotes cell viability in melanoma cell lines (PubMed:17942928). MAGA6_HUMAN,P43360
 Present in ovary GTEx 
 ```{r}
 counts <- counts(dds['ENSG00000197172.10',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
 q <- q + labs(y = "Normalized Counts ", title = "Expression of MAGEA6")
 q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_MAGEA6.csv")
 ```
 
 MAGEA9 
@@ -484,7 +1111,6 @@ UniProtKB/Swiss-Prot Summary for MAGEA9 Gene
 Not known, though may play a role in embryonal development and tumor transformation or aspects of tumor progression. 
 ```{r}
 counts <- counts(dds['ENSG00000123584.7',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
@@ -492,22 +1118,29 @@ q <- q + labs(y = "Normalized Counts ", title = "Expression of MAGEA9")
 q
 ```
 
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_MAGEA9.csv")
+```
+
 MAGEA9B
 ```{r}
 counts <- counts(dds['ENSG00000267978.5',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
 q <- q + labs(y = "Normalized Counts ", title = "Expression of MAGEA9B")
 q
 ```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_MAGEA9B.csv")
+```
+
 MAGEC1
 This gene is a member of the melanoma antigen gene (MAGE) family. The proteins of this family are tumor-specific antigens that can be recognized by autologous cytolytic T lymphocytes. This protein contains a large number of unique short repetitive sequences in front of the MAGE-homologous sequence, and therefore is about 800 aa longer than the other MAGE proteins. [provided by RefSeq, Jul 2008]
 
 ```{r}
 counts <- counts(dds['ENSG00000155495.8',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
@@ -515,17 +1148,67 @@ q <- q + labs(y = "Normalized Counts ", title = "Expression of MAGEC1")
 q
 ```
 
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_MAGEC1.csv")
+```
+
 MAGEC2
 (same as above)
 ```{r}
 counts <- counts(dds['ENSG00000046774.9',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
 q <- q + labs(y = "Normalized Counts ", title = "Expression of MAGEC2")
 q
 ```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_MAGEC2.csv")
+```
+
+MAPRE1P3
+```{r}
+counts <- counts(dds['ENSG00000233204.1',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of MAPRE1P3")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_MAPRE1P3.csv")
+```
+
+MEMO1P4	
+```{r}
+counts <- counts(dds['ENSG00000230376.1',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of MEMO1P4")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_MEMO1P4.csv")
+```
+
+MGAT2P2		
+```{r}
+counts <- counts(dds['ENSG00000238200.1',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of MGAT2P2")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_MGAT2P2.csv")
+```
+
 Did not include microRNAs (there are 5) or mitochondria (there are 11), could revisit
 
 GeneCards Summary for NAA11 Gene
@@ -533,29 +1216,64 @@ NAA11 (N-Alpha-Acetyltransferase 11, NatA Catalytic Subunit) is a Protein Coding
 Present in ovary according to GTEx 
 ```{r}
 counts <- counts(dds['ENSG00000156269.4',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
 q <- q + labs(y = "Normalized Counts ", title = "Expression of NAA11")
 q
 ```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_NAA11.csv")
+```
+
+NF1P9	
+```{r}
+counts <- counts(dds['ENSG00000281347.2',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of NF1P9")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_NF1P9.csv")
+```
+
+NPM1P47	
+```{r}
+counts <- counts(dds['ENSG00000259466.1',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of NPM1P47")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_NPM1P47.csv")
+```
+
 NXF2 
 (Nuclear RNA Export Factor 2) is a Protein Coding gene. Diseases associated with NXF2 include Progesterone-Receptor Negative Breast Cancer and Spermatogenic Failure. Among its related pathways are Transport of Mature Transcript to Cytoplasm and Processing of Capped Intron-Containing Pre-mRNA. Gene Ontology (GO) annotations related to this gene include RNA binding and nucleotide binding. An important paralog of this gene is NXF2B.
 Present in ovary 
 ```{r}
 counts <- counts(dds['ENSG00000269405.6',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
 q <- q + labs(y = "Normalized Counts ", title = "Expression of NXF2")
 q
 ```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_NXF2.csv")
+```
+
 NXF2B
 ```{r}
 counts <- counts(dds['ENSG00000269437.6',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
@@ -563,10 +1281,13 @@ q <- q + labs(y = "Normalized Counts ", title = "Expression of NXF2B")
 q
 ```
 
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_NXF2B.csv")
+```
+
 NXF5
 ```{r}
 counts <- counts(dds['ENSG00000126952.16',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
@@ -574,40 +1295,39 @@ q <- q + labs(y = "Normalized Counts ", title = "Expression of NXF5")
 q
 ```
 
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_NXF5.csv")
+```
 
-OLFM3 
-Peripherally associated with AMPAR complex. AMPAR complex consists of an inner core made of 4 pore-forming GluA/GRIA proteins (GRIA1, GRIA2, GRIA3 and GRIA4) and 4 major auxiliary subunits arranged in a twofold symmetry. One of the two pairs of distinct binding sites is occupied either by CNIH2, CNIH3 or CACNG2, CACNG3. The other harbors CACNG2, CACNG3, CACNG4, CACNG8 or GSG1L. This inner core of AMPAR complex is complemented by outer core constituents binding directly to the GluA/GRIA proteins at sites distinct from the interaction sites of the inner core constituents. Outer core constituents include at least PRRT1, PRRT2, CKAMP44/SHISA9, FRRS1L and NRN1. The proteins of the inner and outer core serve as a platform for other, more peripherally associated AMPAR constituents, including OLFM3. Alone or in combination, these auxiliary subunits control the gating and pharmacology of the AMPAR complex and profoundly impact their biogenesis and protein processing. Homodimer. Interacts with MYOC (By similarity). Interacts with OLFM2 (PubMed:21228389).
-GTEx shows present in ovary 
-```{r}
-counts <- counts(dds['ENSG00000118733.16',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
-m <- list(counts = as.numeric(counts), group= sampleTable$condition)
-m <- as_tibble(m)
-q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
-q <- q + labs(y = "Normalized Counts ", title = "Expression of OLFM3")
-q
-```
-OLFM4
-```{r}
-counts <- counts(dds['ENSG00000102837.6',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
-m <- list(counts = as.numeric(counts), group= sampleTable$condition)
-m <- as_tibble(m)
-q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
-q <- q + labs(y = "Normalized Counts ", title = "Expression of OLFM4")
-q
-```
 OLIG3 Gene 
 Enables sequence-specific double-stranded DNA binding activity. Predicted to be involved in neuron differentiation and regulation of transcription by RNA polymerase II. Predicted to act upstream of or within negative regulation of transcription by RNA polymerase II; spinal cord motor neuron cell fate specification; and spinal cord motor neuron migration. Predicted to be part of chromatin. Predicted to be active in nucleus. [provided by Alliance of Genome Resources, Apr 2022]
 ```{r}
 counts <- counts(dds['ENSG00000177468.6',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
 q <- q + labs(y = "Normalized Counts ", title = "Expression of OLIG3")
 q
 ```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_OLIG3.csv")
+```
+
+ONECUT3
+```{r}
+counts <- counts(dds['ENSG00000205922.4',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of ONECUT3")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_ONECUT3.csv")
+```
+
 Did not do the OR genes because they are olfactory genes 
 
 PAGE genes 
@@ -616,7 +1336,6 @@ no real logic for the PAGE genes minus that they show GAGE like activity, includ
 PAGE2
 ```{r}
 counts <- counts(dds['ENSG00000234068.6',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
@@ -624,10 +1343,13 @@ q <- q + labs(y = "Normalized Counts ", title = "Expression of PAGE2")
 q
 ```
 
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_PAGE2.csv")
+```
+
 PAGE2B
 ```{r}
 counts <- counts(dds['ENSG00000238269.8',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
@@ -635,15 +1357,902 @@ q <- q + labs(y = "Normalized Counts ", title = "Expression of PAGE2B")
 q
 ```
 
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_PAGE2B.csv")
+```
+
 PAGE5
 ```{r}
 counts <- counts(dds['ENSG00000158639.12',], normalized = TRUE)
-col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
 m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
 q <- q + labs(y = "Normalized Counts ", title = "Expression of PAGE5")
 q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_PAGE5.csv")
+```
+
+PANCR	
+```{r}
+counts <- counts(dds['ENSG00000250103.2',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of PANCR")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_PANCR.csv")
+```
+
+PANX3
+```{r}
+counts <- counts(dds['ENSG00000154143.2',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of PANX3")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_PANX3.csv")
+```
+
+PARP4P3	
+```{r}
+counts <- counts(dds['ENSG00000249263.2',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of PARP4P3")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_PARP4P3.csv")
+```
+
+POU3F3
+```{r}
+counts <- counts(dds['ENSG00000198914.3',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of POU3F3")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_POU3F3.csv")
+```
+
+PPIAP45
+```{r}
+counts <- counts(dds['ENSG00000258116.1',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of PPIAP45")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_PPIAP45.csv")
+```
+
+PPP1R2C	
+```{r}
+counts <- counts(dds['ENSG00000102055.6',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of PPP1R2C")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_PPP1R2C.csv")
+```
+
+PRAC1	
+```{r}
+counts <- counts(dds['ENSG00000159182.4',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of PRAC1")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_PRAC1.csv")
+```
+
+PRAMEF8
+```{r}
+counts <- counts(dds['ENSG00000182330.10',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of PRAMEF8")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_PRAMEF8.csv")
+```
+
+PRR23B
+```{r}
+counts <- counts(dds['ENSG00000184814.5',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of PRR23B")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_PRR23B.csv")
+```
+
+PRR23C
+```{r}
+counts <- counts(dds['ENSG00000233701.3',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of PRR23C")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_PRR23C.csv")
+```
+
+PSG8	
+```{r}
+counts <- counts(dds['ENSG00000124467.18',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of PSG8")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_PSG8.csv")
+```
+
+PWRN4	
+```{r}
+counts <- counts(dds['ENSG00000260232.1',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of PWRN4")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_PWRN4.csv")
+```
+
+PYY
+```{r}
+counts <- counts(dds['ENSG00000131096.10',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of PYY")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_PYY.csv")
+```
+
+RALYL
+```{r}
+counts <- counts(dds['ENSG00000184672.11',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of RALYL")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_RALYL.csv")
+```
+
+RARRES2P9	
+```{r}
+counts <- counts(dds['ENSG00000261486.1',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of RARRES2P9")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_RARRES2P9.csv")
+```
+
+RBM22P12
+```{r}
+counts <- counts(dds['ENSG00000260631.1',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of RBM22P12")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_RBM22P12.csv")
+```
+
+RIPPLY1
+```{r}
+counts <- counts(dds['ENSG00000147223.5',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of RIPPLY1")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_RIPPLY1.csv")
+```
+
+SAGE1	
+```{r}
+counts <- counts(dds['ENSG00000181433.9',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of SAGE1")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_SAGE1.csv")
+```
+
+SEPHS2P1
+```{r}
+counts <- counts(dds['ENSG00000250247.1',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of SEPHS2P1")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_SEPHS2P1.csv")
+```
+
+SERPINA4
+```{r}
+counts <- counts(dds['ENSG00000100665.11',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of SERPINA4")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_SERPINA4.csv")
+```
+
+SIGLECL1
+```{r}
+counts <- counts(dds['ENSG00000179213.13',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of SIGLECL1")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_SIGLECL1.csv")
+```
+
+SLC13A2
+```{r}
+counts <- counts(dds['ENSG00000007216.14',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of SLC13A2")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_SLC13A2.csv")
+```
+
+SLC25A15P4
+```{r}
+counts <- counts(dds['ENSG00000273872.1',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of SLC25A15P4")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_SLC25A15P4.csv")
+```
+
+SLC30A3
+```{r}
+counts <- counts(dds['ENSG00000115194.10',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of SLC30A3")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_SLC30A3.csv")
+```
+
+SLCO1B1
+```{r}
+counts <- counts(dds['ENSG00000134538.2',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of SLCO1B1")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_SLCO1B1.csv")
+```
+
+SMIM28
+```{r}
+counts <- counts(dds['ENSG00000262543.1',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of SMIM28")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_SMIM28.csv")
+```
+
+SNAPC5P1
+```{r}
+counts <- counts(dds['ENSG00000241216.1',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of SNAPC5P1")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_SNAPC5P1.csv")
+```
+
+SNX18P25
+```{r}
+counts <- counts(dds['ENSG00000249337.2',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of SNX18P25")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_SNX18P25.csv")
+```
+
+SOCS2P2	
+```{r}
+counts <- counts(dds['ENSG00000224465.1',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of SOCS2P2")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_SOCS2P2.csv")
+```
+
+SOCS5P5	
+```{r}
+counts <- counts(dds['ENSG00000216904.2',], normalized = TRUE)
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF", "Peri-menopause"= "#B8DE29FF")
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of SOCS5P5")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_SOCS5P5.csv")
+```
+
+SPAG11A	
+```{r}
+counts <- counts(dds['ENSG00000178287.17',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of SPAG11A")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_SPAG11A.csv")
+```
+
+SPAG11B
+```{r}
+counts <- counts(dds['ENSG00000164871.17',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of SPAG11B")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_SPAG11B.csv")
+```
+
+SPRR1A
+```{r}
+counts <- counts(dds['ENSG00000169474.4',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of SPRR1A")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_SPRR1A.csv")
+```
+
+SPRR1B
+```{r}
+counts <- counts(dds['ENSG00000169469.8',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of SPRR1B")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_SPRR1B.csv")
+```
+
+SSX4
+```{r}
+counts <- counts(dds['ENSG00000268009.5',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of SSX4")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_SSX4.csv")
+```
+
+SSX4B	
+```{r}
+counts <- counts(dds['ENSG00000269791.5',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of SSX4B")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_SSX4B.csv")
+```
+
+SUMO2P18
+```{r}
+counts <- counts(dds['ENSG00000253639.1',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of SUMO2P18")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_SUMO2P18.csv")
+```
+
+SUN5
+```{r}
+counts <- counts(dds['ENSG00000167098.11',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of SUN5")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_SUN5.csv")
+```
+
+TEX13C
+```{r}
+counts <- counts(dds['ENSG00000282815.1',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of TEX13C")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_TEX13C.csv")
+```
+
+TEX28
+```{r}
+counts <- counts(dds['ENSG00000278057.4',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of TEX28")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_TEX28.csv")
+```
+
+TINAG	
+```{r}
+counts <- counts(dds['ENSG00000137251.15',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of TINAG")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_TINAG.csv")
+```
+
+TPTE
+```{r}
+counts <- counts(dds['ENSG00000274391.4',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of TPTE")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_TPTE.csv")
+```
+
+TPTEP1
+```{r}
+counts <- counts(dds['ENSG00000100181.22',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of TPTEP1")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_TPTEP1.csv")
+```
+
+TRIM48
+```{r}
+counts <- counts(dds['ENSG00000150244.11',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of TRIM48")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_TRIM48.csv")
+```
+
+TRIM53CP
+```{r}
+counts <- counts(dds['ENSG00000254764.1',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of TRIM53CP")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_TRIM53CP.csv")
+```
+
+TTR	
+```{r}
+counts <- counts(dds['ENSG00000118271.9',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of TTR")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_TTR.csv")
+```
+
+TUBB3P2
+```{r}
+counts <- counts(dds['ENSG00000230101.5',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of TUBB3P2")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_TUBB3P2.csv")
+```
+
+TUBB8P11	
+```{r}
+counts <- counts(dds['ENSG00000234711.1',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of TUBB8P11")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_TUBB8P11.csv")
+```
+
+UGT2A3
+```{r}
+counts <- counts(dds['ENSG00000135220.10',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of UGT2A3")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_UGT2A3.csv")
+```
+
+UGT2B15
+```{r}
+counts <- counts(dds['ENSG00000196620.9',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of UGT2B15")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_UGT2B15.csv")
+```
+
+UGT2B17
+```{r}
+counts <- counts(dds['ENSG00000197888.2',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of UGT2B17")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_UGT2B17.csv")
+```
+
+UGT2B29P
+```{r}
+counts <- counts(dds['ENSG00000250566.1',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of UGT2B29P")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_UGT2B29P.csv")
+```
+
+VCY1B	
+```{r}
+counts <- counts(dds['ENSG00000129862.6',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of VCY1B")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_VCY1B.csv")
+```
+
+VENTXP1	
+```{r}
+counts <- counts(dds['ENSG00000259849.1',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of VENTXP1")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_VENTXP1.csv")
+```
+
+VN1R32P
+```{r}
+counts <- counts(dds['ENSG00000230361.1',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of VN1R32P")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_VN1R32P.csv")
+```
+
+VN1R40P
+```{r}
+counts <- counts(dds['ENSG00000223845.1',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of VN1R40P")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_VN1R40P.csv")
+```
+
+XAGE1A
+```{r}
+counts <- counts(dds['ENSG00000204379.10',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of XAGE1A")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_XAGE1A.csv")
+```
+
+XAGE1B
+```{r}
+counts <- counts(dds['ENSG00000204382.11',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of XAGE1B")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_XAGE1B.csv")
+```
+
+ZIC3	
+```{r}
+counts <- counts(dds['ENSG00000156925.11',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of ZIC3")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_ZIC3.csv")
+```
+
+ZNF317P1
+```{r}
+counts <- counts(dds['ENSG00000253781.1',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of ZNF317P1")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_ZNF317P1.csv")
+```
+
+ZPBP2	
+```{r}
+counts <- counts(dds['ENSG00000186075.12',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression of ZPBP2")
+q
+```
+
+```{r}
+write.csv(counts, "~/Desktop/grouping1/counts_menopause_grouping1_ZPBP2.csv")
 ```
 
 L2FC >2 
@@ -845,3 +2454,32 @@ q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitte
 q <- q + labs(y = "Normalized Counts ", title = "Expression CD25/ ILR2A")
 q
 ```
+p53
+```{r}
+counts <- counts(dds['ENSG00000141510.16',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression p53")
+q
+```
+Endothelin 1 
+potent vasoconstrictor; differential expression could promote tumorigenesis 
+```{r}
+counts <- counts(dds['ENSG00000078401.6',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none")
+q <- q + labs(y = "Normalized Counts ", title = "Expression EDN1")
+q
+```
+
+Heatmap to see if the pval genes cluster the groups out 
+```{r}
+data <-read.csv("~/Documents/Mythreye_Lab/Asha/TCGA_Menopause_Grouping1/L2FCneg2_count_matrix.csv")
+data2 <- as.matrix(data)
+heatmap(data2)
+```
+
+
+
