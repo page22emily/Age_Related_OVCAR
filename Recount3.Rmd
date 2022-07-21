@@ -2476,9 +2476,16 @@ q
 
 Heatmap to see if the pval genes cluster the groups out 
 ```{r}
-data <-read.csv("~/Documents/Mythreye_Lab/Asha/TCGA_Menopause_Grouping1/L2FCneg2_count_matrix.csv")
-data2 <- as.matrix(data)
-heatmap(data2)
+data <-read.csv("~/Documents/Mythreye_Lab/Asha/TCGA_Menopause_Grouping1/L2FCneg2_count_matrix.csv", stringsAsFactors=TRUE, header= TRUE)
+row_name <- data$Gene.ID
+data <- data[,2:143]
+data_matrix <- data.matrix(data)
+data_heatmap <- heatmap(data_matrix, Rowv=NA, Colv=NA, col = cm.colors(256), scale="column", margins=c(5,10))
+```
+
+
+```{r}
+ggplot(aes(x=data, y=row_name, fill=counts)) +geom_raster() + scale_fill_viridis_c()
 ```
 
 

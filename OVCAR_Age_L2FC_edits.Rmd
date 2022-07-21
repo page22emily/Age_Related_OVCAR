@@ -1,0 +1,96 @@
+---
+title: "Different_comparisons_Ovarian_aging"
+output: html_document
+date: '2022-07-20'
+---
+
+```{r}
+library("recount3")
+
+ovarian_recount3 <- recount3::create_rse_manual(
+  project = "OV",
+  project_home = "data_sources/tcga",
+  organism = "human",
+  annotation = "gencode_v26",
+  type = "gene"
+)
+
+ovarian_counts <- ovarian_recount3@assays@data@listData$raw_counts
+write.csv(ovarian_counts, "~/Desktop/rawcounts.csv")
+```
+
+```{r}
+#necessary meta data 
+tcga_barcodes <- ovarian_recount3@colData@listData[["tcga.tcga_barcode"]]
+project_names <- ovarian_recount3@colData@listData[["tcga.gdc_cases.project.name"]]
+
+write.csv(tcga_barcodes, "~/Desktop/barcodes.csv")
+write.csv(project_names, "~/Desktop/project_names.csv")
+```
+
+```{r}
+case_id <- ovarian_recount3@colData@listData[["tcga.gdc_cases.case_id"]]
+
+write.csv(case_id, "~/Desktop/case_id.csv")
+```
+
+before this make the meta information from TCGA's website as well as the information from above 
+
+```{r message= FALSE, warning= FALSE, echo=FALSE}
+library(tximport)
+library(GenomicFeatures)
+library(TxDb.Hsapiens.UCSC.hg19.knownGene)
+library(DESeq2)
+library(tibble)
+library(ggplot2)
+```
+
+```{r message= FALSE, warning= FALSE, echo=FALSE}
+sample_meta_data <- read.csv("~/Documents/Mythreye_Lab/Asha/TCGA_meta.csv")
+sampleNames <- sample_meta_data$From_Original_Order
+Menopause_status <- sample_meta_data$Menopause_status
+sampleTable <- data.frame(sampleName = sampleNames,
+                          condition = Menopause_status)
+sampleTable$condition <- factor(sampleTable$condition)
+dds <- DESeqDataSetFromMatrix(ovarian_counts, sampleTable, ~condition)
+dds <- DESeq(dds)
+res <- results(dds)
+```
+
+
+```{r}
+res_post_vs_pre <- results(dds, contrast=c("condition","Post-Menopause ","Pre-Menopause"))
+```
+
+```{r}
+res_post_vs_pre
+```
+```{r}
+summary(res_post_vs_pre)
+```
+
+```{r}
+write.csv(res_post_vs_pre, "~/Desktop/results_post_vs_pre_aging_tcga.csv")
+```
+
+
+```{r}
+res_post_vs_meno <- results(dds, contrast=c("condition","Post-Menopause ","Menopause "))
+```
+
+```{r}
+res_post_vs_meno
+```
+
+```{r}
+summary(res_post_vs_meno)
+```
+
+```{r}
+write.csv(res_post_vs_meno, "~/Desktop/results_post_vs_meno_aging_tcga.csv")
+```
+
+#now I have the p value <0.05 of each group and the one from my OG DeSeq2 analysis. 
+#Venn Diagrams to show unique vs overlap 
+
+
