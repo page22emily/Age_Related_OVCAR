@@ -16,23 +16,8 @@ ovarian_recount3 <- recount3::create_rse_manual(
 )
 
 ovarian_counts <- ovarian_recount3@assays@data@listData$raw_counts
-write.csv(ovarian_counts, "~/Desktop/rawcounts.csv")
 ```
 
-```{r}
-#necessary meta data 
-tcga_barcodes <- ovarian_recount3@colData@listData[["tcga.tcga_barcode"]]
-project_names <- ovarian_recount3@colData@listData[["tcga.gdc_cases.project.name"]]
-
-write.csv(tcga_barcodes, "~/Desktop/barcodes.csv")
-write.csv(project_names, "~/Desktop/project_names.csv")
-```
-
-```{r}
-case_id <- ovarian_recount3@colData@listData[["tcga.gdc_cases.case_id"]]
-
-write.csv(case_id, "~/Desktop/case_id.csv")
-```
 
 before this make the meta information from TCGA's website as well as the information from above 
 
@@ -46,7 +31,7 @@ library(ggplot2)
 ```
 
 ```{r message= FALSE, warning= FALSE, echo=FALSE}
-sample_meta_data <- read.csv("~/Documents/Mythreye_Lab/Asha/TCGA_meta.csv")
+sample_meta_data <- read.csv("~/Documents/Mythreye_Lab/Asha/Comparison_Groups_Aging/Mythreye_Lab/Asha/TCGA_meta.csv")
 sampleNames <- sample_meta_data$From_Original_Order
 Menopause_status <- sample_meta_data$Menopause_status
 sampleTable <- data.frame(sampleName = sampleNames,
@@ -70,7 +55,7 @@ summary(res_post_vs_pre)
 ```
 
 ```{r}
-write.csv(res_post_vs_pre, "~/Desktop/results_post_vs_pre_aging_tcga.csv")
+write.csv(res_post_vs_pre, "~/Documents/Mythreye_Lab/Asha/Comparison_Groups_Aging/results_post_vs_pre_aging_tcga.csv")
 ```
 
 
@@ -87,10 +72,66 @@ summary(res_post_vs_meno)
 ```
 
 ```{r}
-write.csv(res_post_vs_meno, "~/Desktop/results_post_vs_meno_aging_tcga.csv")
+write.csv(res_post_vs_meno, "~/Documents/Mythreye_Lab/Asha/Comparison_Groups_Aging/results_post_vs_meno_aging_tcga.csv")
 ```
 
 #now I have the p value <0.05 of each group and the one from my OG DeSeq2 analysis. 
-#Venn Diagrams to show unique vs overlap 
+#Venn Diagrams to show unique vs overlap
+
+#imported in the ENSMBL ids and the Gene symbol columns in. All have been filtered to have
+# p val <0.05 and remove NAs. 
+
+```{r setup, include=FALSE}
+library(ggVennDiagram)
+library(ggplot2)
+library(sf)
+library(VennDiagram)
+```
+
+
+```{r warning=FALSE, echo=FALSE}
+post_vs_meno<- results_post_vs_meno_aging_tcga$Gene_Symbol
+pre_vs_post<- results_post_vs_pre_aging_tcga$Gene_Symbol
+pre_vs_meno<- p_value_adjusted_Table_1$Gene_Symbol
+```
+  
+```{r, echo=FALSE}
+x <- list(post_vs_meno= post_vs_meno, pre_vs_post= pre_vs_post, pre_vs_meno= pre_vs_meno)
+venn <- Venn(x)
+d <- process_data(venn)
+d2 <- process_data(venn)
+
+d2@region <- st_polygonize(d@setEdge)
+
+col <- c("post_vs_meno" = "#482677FF", "pre_vs_post"= "#29AF7FFF", "pre_vs_meno"= "#33638DFF")
+
+ggplot() +
+geom_sf(aes(fill = name), data = venn_region(d2)) +
+geom_sf(aes(color = name), data = venn_setedge(d)) +
+geom_sf_text(aes(label = count), data = venn_region(d)) +
+scale_color_manual(values = alpha(col, .7)) +
+scale_fill_manual(values = alpha(col, .7)) +
+theme_void()
+```
+```{r}
+library(VennDiagram)
+#saving these groups 
+Overlap_Aging_groups <- calculate.overlap(x = list(post_vs_meno, pre_vs_post, pre_vs_meno))
+```
+
+```{r}
+all_together <- Overlap_Aging_groups$a5
+post_vs_meno_only <- Overlap_Aging_groups$a1
+pre_vs_meno_only <- Overlap_Aging_groups$a7
+pre_vs_post_only <- Overlap_Aging_groups$a3
+```
+
+```{r}
+write.csv(all_together, "~/Documents/Mythreye_Lab/Asha/Comparison_Groups_Aging/Aging_Comparison_Groups_Venn_Diagrams/all_together.csv")
+write.csv(post_vs_meno_only, "~/Documents/Mythreye_Lab/Asha/Comparison_Groups_Aging/Aging_Comparison_Groups_Venn_Diagrams/post_vs_meno_only.csv")
+write.csv(pre_vs_meno_only, "~/Documents/Mythreye_Lab/Asha/Comparison_Groups_Aging/Aging_Comparison_Groups_Venn_Diagrams/pre_vs_meno_only.csv")
+write.csv(pre_vs_post_only, "~/Documents/Mythreye_Lab/Asha/Comparison_Groups_Aging/Aging_Comparison_Groups_Venn_Diagrams/pre_vs_post_only.csv" )
+```
+
 
 
