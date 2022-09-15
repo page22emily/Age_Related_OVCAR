@@ -4,7 +4,7 @@ output: html_document
 date: '2022-07-20'
 ---
 
-```{r}
+```{r message= FALSE, warning= FALSE, echo=FALSE}
 library("recount3")
 
 ovarian_recount3 <- recount3::create_rse_manual(
@@ -31,7 +31,7 @@ library(ggplot2)
 ```
 
 ```{r message= FALSE, warning= FALSE, echo=FALSE}
-sample_meta_data <- read.csv("~/Documents/Mythreye_Lab/Asha/Comparison_Groups_Aging/Mythreye_Lab/Asha/TCGA_meta.csv")
+sample_meta_data <- read.csv("~/Documents/Mythreye_Lab/Asha/TCGA/Initial_Comparisons_Menopause_Status/TCGA_meta.csv")
 sampleNames <- sample_meta_data$From_Original_Order
 Menopause_status <- sample_meta_data$Menopause_status
 sampleTable <- data.frame(sampleName = sampleNames,
@@ -43,23 +43,24 @@ res <- results(dds)
 ```
 
 
-```{r}
+```{r message= FALSE, warning= FALSE, echo=FALSE}
 res_post_vs_pre <- results(dds, contrast=c("condition","Post-Menopause ","Pre-Menopause"))
 ```
 
 ```{r}
 res_post_vs_pre
 ```
+
 ```{r}
 summary(res_post_vs_pre)
 ```
 
-```{r}
-write.csv(res_post_vs_pre, "~/Documents/Mythreye_Lab/Asha/Comparison_Groups_Aging/results_post_vs_pre_aging_tcga.csv")
+```{r message= FALSE, warning= FALSE, echo=FALSE}
+write.csv(res_post_vs_pre, "~/Desktop/results_post_vs_pre_aging_tcga.csv")
 ```
 
 
-```{r}
+```{r message= FALSE, warning= FALSE, echo=FALSE}
 res_post_vs_meno <- results(dds, contrast=c("condition","Post-Menopause ","Menopause "))
 ```
 
@@ -71,8 +72,16 @@ res_post_vs_meno
 summary(res_post_vs_meno)
 ```
 
+```{r message= FALSE, warning= FALSE, echo=FALSE}
+write.csv(res_post_vs_meno, "~/Desktop/results_post_vs_meno_aging_tcga.csv")
+```
+
 ```{r}
-write.csv(res_post_vs_meno, "~/Documents/Mythreye_Lab/Asha/Comparison_Groups_Aging/results_post_vs_meno_aging_tcga.csv")
+res_pre_vs_meno <- results(dds, contrast=c("condition","Pre-Menopause", "Menopause "))
+```
+
+```{r message= FALSE, warning= FALSE, echo=FALSE}
+write.csv(res_pre_vs_meno, "~/Desktop/results_pre_vs_meno_aging_tcga.csv")
 ```
 
 #now I have the p value <0.05 of each group and the one from my OG DeSeq2 analysis. 
@@ -88,13 +97,22 @@ library(sf)
 library(VennDiagram)
 ```
 
+```{r}
+results_post_vs_meno_aging_tcga <- read.csv("~/Documents/Mythreye_Lab/Asha/TCGA/Initial_Comparisons_Menopause_Status/TCGA_Menopause_Grouping1/Menopause_groups_no_decimals/post_vs_meno-no_decimal.csv")
+
+results_post_vs_pre_aging_tcga <- read.csv("~/Documents/Mythreye_Lab/Asha/TCGA/Initial_Comparisons_Menopause_Status/TCGA_Menopause_Grouping1/Menopause_groups_no_decimals/pre_vs_post-no_decimal.csv")
+
+results_pre_vs_meno_aging_tcga <- read.csv("~/Documents/Mythreye_Lab/Asha/TCGA/Initial_Comparisons_Menopause_Status/TCGA_Menopause_Grouping1/Menopause_groups_no_decimals/pre_vs_meno-no_decimal.csv")
+```
+
 
 ```{r warning=FALSE, echo=FALSE}
-post_vs_meno<- results_post_vs_meno_aging_tcga$Gene_Symbol
-pre_vs_post<- results_post_vs_pre_aging_tcga$Gene_Symbol
-pre_vs_meno<- p_value_adjusted_Table_1$Gene_Symbol
+post_vs_meno<- results_post_vs_meno_aging_tcga$ENSMBL
+pre_vs_post<- results_post_vs_pre_aging_tcga$ENSMBL
+pre_vs_meno<- results_pre_vs_meno_aging_tcga$ENSMBL
 ```
   
+
 ```{r, echo=FALSE}
 x <- list(post_vs_meno= post_vs_meno, pre_vs_post= pre_vs_post, pre_vs_meno= pre_vs_meno)
 venn <- Venn(x)
@@ -113,25 +131,233 @@ scale_color_manual(values = alpha(col, .7)) +
 scale_fill_manual(values = alpha(col, .7)) +
 theme_void()
 ```
-```{r}
+```{r message= FALSE, warning= FALSE, echo=FALSE} 
 library(VennDiagram)
 #saving these groups 
 Overlap_Aging_groups <- calculate.overlap(x = list(post_vs_meno, pre_vs_post, pre_vs_meno))
 ```
 
-```{r}
+```{r message= FALSE, warning= FALSE, echo=FALSE}
 all_together <- Overlap_Aging_groups$a5
 post_vs_meno_only <- Overlap_Aging_groups$a1
 pre_vs_meno_only <- Overlap_Aging_groups$a7
 pre_vs_post_only <- Overlap_Aging_groups$a3
 ```
 
-```{r}
-write.csv(all_together, "~/Documents/Mythreye_Lab/Asha/Comparison_Groups_Aging/Aging_Comparison_Groups_Venn_Diagrams/all_together.csv")
-write.csv(post_vs_meno_only, "~/Documents/Mythreye_Lab/Asha/Comparison_Groups_Aging/Aging_Comparison_Groups_Venn_Diagrams/post_vs_meno_only.csv")
-write.csv(pre_vs_meno_only, "~/Documents/Mythreye_Lab/Asha/Comparison_Groups_Aging/Aging_Comparison_Groups_Venn_Diagrams/pre_vs_meno_only.csv")
-write.csv(pre_vs_post_only, "~/Documents/Mythreye_Lab/Asha/Comparison_Groups_Aging/Aging_Comparison_Groups_Venn_Diagrams/pre_vs_post_only.csv" )
+```{r message= FALSE, warning= FALSE, echo=FALSE}
+write.csv(all_together, "~/Desktop/all_together.csv")
+write.csv(post_vs_meno_only, "~/Desktop/post_vs_meno_only.csv")
+write.csv(pre_vs_meno_only, "~/Desktop/pre_vs_meno_only.csv")
+write.csv(pre_vs_post_only, "~/Desktop/pre_vs_post_only.csv" )
+```
+
+
+```{r warning=FALSE, echo=FALSE}
+tgfb_file <- read.csv("~/Documents/Mythreye_Lab/Asha/TCGA/Menopause_TGFB_Family_Similarities_Results/Updated_TGFB_SuperFamily_Gene_list.csv")
+tgfb <- tgfb_file$ENSMBL
+
+aging_file <- read.csv("~/Documents/Mythreye_Lab/Asha/TCGA/Menopause_Aging_Genes_Similarity_Results/Aging_Gene_List.csv")
+aging <- aging_file$ENSEMBL
+
+angiongenesis_file <- read.csv("~/Documents/Mythreye_Lab/Asha/TCGA/Menopause_Angiogenesis_Genes_Similarity_Results/Angiogenesis_gene_list.csv")
+angiogenesis <- angiongenesis_file$ENSEMBL
+```
+
+
+```{r, echo=FALSE}
+x <- list("Post-Menopause vs Menopause"= post_vs_meno, "Post-Menopause vs Pre-Menopause"= pre_vs_post, "Pre-Menopause vs Menopause"= pre_vs_meno, "TGFB Super Family"= tgfb)
+venn <- Venn(x)
+d <- process_data(venn)
+d2 <- process_data(venn)
+
+d2@region <- st_polygonize(d@setEdge)
+
+col <- c("Post-Menopause vs Menopause" = "#482677FF", "Post-Menopause vs Pre-Menopause"= "#29AF7FFF", "Pre-Menopause vs Menopause"= "#33638DFF", "TGFB Super Family"= "#75D054FF")
+
+ggplot() +
+geom_sf(aes(fill = name), data = venn_region(d2)) +
+geom_sf(aes(color = name), data = venn_setedge(d)) +
+geom_sf_text(aes(label = count), data = venn_region(d)) +
+scale_color_manual(values = alpha(col, .7)) +
+scale_fill_manual(values = alpha(col, .7)) +
+theme_void()
+
+ggsave("~/Desktop/Overlap.svg", plot = last_plot())
+``` 
+
+
+```{r message= FALSE, warning= FALSE, echo=FALSE}
+library(VennDiagram)
+#saving these groups 
+Overlap_Aging_groups_TGFB <- calculate.overlap(x = list(post_vs_meno, pre_vs_post, pre_vs_meno, tgfb))
+
+write.csv(Overlap_Aging_groups_TGFB$a10, "~/Desktop/post_vs_meno_TGFB.csv")
+
+write.csv(Overlap_Aging_groups_TGFB$a8 , "~/Desktop/pre_vs_post_TGFB.csv")
 ```
 
 
 
+```{r, echo=FALSE}
+x <- list(post_vs_meno= post_vs_meno, pre_vs_post= pre_vs_post, pre_vs_meno= pre_vs_meno, Aging_Genes= aging)
+venn <- Venn(x)
+d <- process_data(venn)
+d2 <- process_data(venn)
+
+d2@region <- st_polygonize(d@setEdge)
+
+col <- c("post_vs_meno" = "#482677FF", "pre_vs_post"= "#29AF7FFF", "pre_vs_meno"= "#33638DFF", "Aging_Genes"= "#75D054FF")
+
+ggplot() +
+geom_sf(aes(fill = name), data = venn_region(d2)) +
+geom_sf(aes(color = name), data = venn_setedge(d)) +
+geom_sf_text(aes(label = count), data = venn_region(d)) +
+scale_color_manual(values = alpha(col, .7)) +
+scale_fill_manual(values = alpha(col, .7)) +
+theme_void()
+```
+```{r message= FALSE, warning= FALSE, echo=FALSE} 
+library(VennDiagram)
+#saving these groups 
+Overlap_Aging_groups <- calculate.overlap(x = list(post_vs_meno, pre_vs_post, pre_vs_meno, aging))
+
+write.csv(Overlap_Aging_groups$a10, "~/Desktop/post_vs_meno_aging_genes.csv")
+
+write.csv(Overlap_Aging_groups$a7 , "~/Desktop/pre_vs_meno_vs_pre_vs_post_aging_genes.csv")
+
+write.csv(Overlap_Aging_groups$a8, "~/Desktop/post_vs_pre_aging_genes.csv")
+
+write.csv(Overlap_Aging_groups$a11 , "~/Desktop/pre_vs_post_vs_post_vs_meno_aging_genes.csv")
+```
+
+
+```{r, echo=FALSE}
+x <- list(post_vs_meno= post_vs_meno, pre_vs_post= pre_vs_post, pre_vs_meno= pre_vs_meno, Angiogenesis_Genes= angiogenesis)
+venn <- Venn(x)
+d <- process_data(venn)
+d2 <- process_data(venn)
+
+d2@region <- st_polygonize(d@setEdge)
+
+col <- c("post_vs_meno" = "#482677FF", "pre_vs_post"= "#29AF7FFF", "pre_vs_meno"= "#33638DFF", "Angiogenesis_Genes"= "#75D054FF")
+
+ggplot() +
+geom_sf(aes(fill = name), data = venn_region(d2)) +
+geom_sf(aes(color = name), data = venn_setedge(d)) +
+geom_sf_text(aes(label = count), data = venn_region(d)) +
+scale_color_manual(values = alpha(col, .7)) +
+scale_fill_manual(values = alpha(col, .7)) +
+theme_void()
+``` 
+
+```{r message= FALSE, warning= FALSE, echo=FALSE}
+library(VennDiagram)
+#saving these groups 
+Overlap_Angiogensis_groups <- calculate.overlap(x = list(post_vs_meno, pre_vs_post, pre_vs_meno, angiogenesis))
+
+write.csv(Overlap_Angiogensis_groups$a10, "~/Desktop/post_vs_meno_angiogenesis_genes.csv")
+
+write.csv(Overlap_Angiogensis_groups$a7 , "~/Desktop/pre_vs_meno_vs_pre_vs_post_angiogenesis_genes.csv")
+
+write.csv(Overlap_Angiogensis_groups$a8, "~/Desktop/post_vs_pre_angiogenesis_genes.csv")
+
+write.csv(Overlap_Angiogensis_groups$a11 , "~/Desktop/pre_vs_post_vs_post_vs_meno_angiogenesis_genes.csv")
+
+write.csv(Overlap_Angiogensis_groups$a2 , "~/Desktop/pre_vs_meno_angiogenesis_genes.csv")
+```
+
+Gene overlaps/ Genes of Interest
+
+TGFB Menopause Status 
+
+Pre vs Post Overlap 
+```{r}
+col = c("Menopause "= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause "= "#29AF7FFF")
+```
+
+
+```{r}
+counts <- counts(dds['ENSG00000135503.12',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none") + scale_x_discrete(limits=c("Pre-Menopause", "Menopause ", "Post-Menopause ")) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black")) + theme(plot.title = element_text(size=22))
+q <- q + labs(y = "Normalized Counts ", title = "Expression of ACVR1B")
+q
+ggsave("~/Desktop/TGFB2.svg", plot = last_plot())
+```
+
+```{r}
+counts <- counts(dds['ENSG00000123612.15',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none") + scale_x_discrete(limits=c("Pre-Menopause", "Menopause ", "Post-Menopause ")) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black")) + theme(plot.title = element_text(size=22))
+q <- q + labs(y = "Normalized Counts ", title = "Expression of ACVR1C")
+q
+ggsave("~/Desktop/ACVR1C.svg", plot = last_plot())
+```
+
+```{r}
+counts <- counts(dds['ENSG00000135414.9',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none") + scale_x_discrete(limits=c("Pre-Menopause", "Menopause ", "Post-Menopause ")) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black")) + theme(plot.title = element_text(size=22))
+q <- q + labs(y = "Normalized Counts ", title = "Expression of GDF11")
+q
+ggsave("~/Desktop/GDF11.svg", plot = last_plot())
+```
+```{r}
+counts <- counts(dds['ENSG00000143869.6',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none") + scale_x_discrete(limits=c("Pre-Menopause", "Menopause ", "Post-Menopause "))
+q <- q + labs(y = "Normalized Counts ", title = "Expression of GDF7")
+q
+```
+```{r}
+counts <- counts(dds['ENSG00000092969.11',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none") + scale_x_discrete(limits=c("Pre-Menopause", "Menopause ", "Post-Menopause ")) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black")) + theme(plot.title = element_text(size=22))
+q <- q + labs(y = "Normalized Counts ", title = "Expression of TGFB2")
+q
+ggsave("~/Desktop/TGFB2.svg", plot = last_plot())
+```
+```{r}
+counts <- counts(dds['ENSG00000090539.15',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none") + scale_x_discrete(limits=c("Pre-Menopause", "Menopause ", "Post-Menopause ")) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black")) + theme(plot.title = element_text(size=22))
+q <- q + labs(y = "Normalized Counts ", title = "Expression of CHRD")
+q
+ggsave("~/Desktop/CHRD.svg", plot = last_plot())
+```
+```{r}
+counts <- counts(dds['ENSG00000243709.1',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none") + scale_x_discrete(limits=c("Pre-Menopause", "Menopause ", "Post-Menopause ")) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black")) + theme(plot.title = element_text(size=22))
+q <- q + labs(y = "Normalized Counts ", title = "Expression of LEFTY1")
+q
+ggsave("~/Desktop/LEFTY1.svg", plot = last_plot())
+```
+```{r}
+counts <- counts(dds['ENSG00000156574.9',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none") + scale_x_discrete(limits=c("Pre-Menopause", "Menopause ", "Post-Menopause ")) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black")) + theme(plot.title = element_text(size=22))
+q <- q + labs(y = "Normalized Counts ", title = "Expression of NODAL")
+q
+ggsave("~/Desktop/NODAL.svg", plot = last_plot())
+```
+
+
+
+```{r}
+counts <- counts(dds['ENSG00000103888.16',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition)
+m <- as_tibble(m)
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none") + scale_x_discrete(limits=c("Pre-Menopause", "Menopause ", "Post-Menopause ")) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black")) + theme(plot.title = element_text(size=22))
+q <- q + labs(y = "Normalized Counts ", title = "Expression of CEMIP")
+q
+ggsave("~/Desktop/NODAL.svg", plot = last_plot())
+```
