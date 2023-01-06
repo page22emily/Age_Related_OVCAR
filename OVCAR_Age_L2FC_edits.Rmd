@@ -16,6 +16,7 @@ ovarian_recount3 <- recount3::create_rse_manual(
 )
 
 ovarian_counts <- ovarian_recount3@assays@data@listData$raw_counts
+write.csv(ovarian_counts,"~/counts_recount3_samples.csv")
 ```
 
 
@@ -31,7 +32,7 @@ library(ggplot2)
 ```
 
 ```{r message= FALSE, warning= FALSE, echo=FALSE}
-sample_meta_data <- read.csv("~/Documents/Mythreye_Lab/Asha/TCGA/Initial_Comparisons_Menopause_Status/TCGA_meta.csv")
+sample_meta_data <- read.csv("/Users/empage/Documents/meta_recount_ov_TCGA.csv")
 sampleNames <- sample_meta_data$From_Original_Order
 Menopause_status <- sample_meta_data$Menopause_status
 sampleTable <- data.frame(sampleName = sampleNames,
@@ -305,6 +306,7 @@ q <- q + labs(y = "Normalized Counts ", title = "Expression of GDF11")
 q
 ggsave("~/Desktop/GDF11.svg", plot = last_plot())
 ```
+
 ```{r}
 counts <- counts(dds['ENSG00000143869.6',], normalized = TRUE)
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
@@ -313,6 +315,7 @@ q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitte
 q <- q + labs(y = "Normalized Counts ", title = "Expression of GDF7")
 q
 ```
+
 ```{r}
 counts <- counts(dds['ENSG00000092969.11',], normalized = TRUE)
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
@@ -322,6 +325,7 @@ q <- q + labs(y = "Normalized Counts ", title = "Expression of TGFB2")
 q
 ggsave("~/Desktop/TGFB2.svg", plot = last_plot())
 ```
+
 ```{r}
 counts <- counts(dds['ENSG00000090539.15',], normalized = TRUE)
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
@@ -331,6 +335,7 @@ q <- q + labs(y = "Normalized Counts ", title = "Expression of CHRD")
 q
 ggsave("~/Desktop/CHRD.svg", plot = last_plot())
 ```
+
 ```{r}
 counts <- counts(dds['ENSG00000243709.1',], normalized = TRUE)
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
@@ -350,8 +355,6 @@ q
 ggsave("~/Desktop/NODAL.svg", plot = last_plot())
 ```
 
-
-
 ```{r}
 counts <- counts(dds['ENSG00000103888.16',], normalized = TRUE)
 m <- list(counts = as.numeric(counts), group= sampleTable$condition)
@@ -359,5 +362,5 @@ m <- as_tibble(m)
 q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none") + scale_x_discrete(limits=c("Pre-Menopause", "Menopause ", "Post-Menopause ")) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black")) + theme(plot.title = element_text(size=22))
 q <- q + labs(y = "Normalized Counts ", title = "Expression of CEMIP")
 q
-ggsave("~/Desktop/NODAL.svg", plot = last_plot())
+ggsave("~/CEMIP.svg", plot = last_plot())
 ```

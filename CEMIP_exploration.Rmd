@@ -1,0 +1,79 @@
+---
+title: "CEMIP_exploration"
+output: html_document
+date: "2023-01-06"
+---
+
+#setup 
+```{r message= FALSE, warning= FALSE, echo=FALSE}
+library("recount3")
+
+ovarian_recount3 <- recount3::create_rse_manual(
+  project = "OV",
+  project_home = "data_sources/tcga",
+  organism = "human",
+  annotation = "gencode_v26",
+  type = "gene"
+)
+
+ovarian_counts <- ovarian_recount3@assays@data@listData$raw_counts
+write.csv(ovarian_counts,"~/counts_recount3_samples.csv")
+```
+
+```{r message= FALSE, warning= FALSE, echo=FALSE}
+library(tximport)
+library(GenomicFeatures)
+library(TxDb.Hsapiens.UCSC.hg19.knownGene)
+library(DESeq2)
+library(tibble)
+library(ggplot2)
+```
+
+```{r message= FALSE, warning= FALSE, echo=FALSE}
+sample_meta_data <- read.csv("/Users/empage/Documents/meta_recount_ov_TCGA.csv")
+sampleNames <- sample_meta_data$TCGA_ID
+Menopause_status <- sample_meta_data$Menopause_status
+sampleTable <- data.frame(sampleName = sampleNames,
+                          condition = Menopause_status)
+sampleTable$condition <- factor(sampleTable$condition)
+dds <- DESeqDataSetFromMatrix(ovarian_counts, sampleTable, ~condition)
+dds <- DESeq(dds)
+res <- results(dds)
+```
+
+
+```{r message= FALSE, warning= FALSE, echo=FALSE}
+res_post_vs_pre <- results(dds, contrast=c("condition","Post-Menopause","Pre-Menopause"))
+summary(res_post_vs_pre)
+```
+
+```{r message= FALSE, warning= FALSE, echo=FALSE}
+res_post_vs_meno <- results(dds, contrast=c("condition","Post-Menopause","Menopause"))
+summary(res_post_vs_meno)
+```
+
+```{r}
+res_pre_vs_meno <- results(dds, contrast=c("condition","Pre-Menopause", "Menopause"))
+summary(res_pre_vs_meno)
+```
+```{r}
+col = c("Menopause"= "#481567FF", "Pre-Menopause"= "#2D708EFF", "Post-Menopause"= "#29AF7FFF")
+```
+
+```{r}
+counts <- counts(dds['ENSG00000103888.16',], normalized = TRUE)
+m <- list(counts = as.numeric(counts), group= sampleTable$condition, sampleName=sampleTable$sampleName, status= sample_meta_data$status_at_last_visit)
+m <- as_tibble(m)
+```
+
+
+```{r}
+q <- ggplot(m, aes(group, counts)) + geom_boxplot(aes(fill= group)) + geom_jitter(width = 0.1) + aes(color= group) + scale_fill_manual(values = alpha(col,.3)) +scale_color_manual(values = alpha(col, 1.0)) + theme(text = element_text(size = 13)) + theme(axis.text.y = element_text(size = 17)) + theme(legend.position="none") + scale_x_discrete(limits=c("Pre-Menopause", "Menopause", "Post-Menopause")) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black")) + theme(plot.title = element_text(size=22))
+q <- q + labs(y = "Normalized Counts ", title = "Expression of CEMIP")
+q
+```
+
+```{r}
+col_2= c("Dead"= "black", "Alive"= "red", "NA"= "gray")
+ggplot(m, aes(group, counts)) + geom_point() + aes(color= status) + scale_x_discrete(limits=c("Pre-Menopause", "Menopause", "Post-Menopause"))
+```
